@@ -197,37 +197,44 @@ SITE_ID = 1
 # User Model
 AUTH_USER_MODEL = "db.User"
 
+
+def _clean_env(key: str, default: str = "") -> str:
+    val = os.environ.get(key)
+    if not val:
+        return default
+    s = str(val).strip().strip('"').strip("'")
+    return s if s else default
+
+
 # Database
-_db_url = os.environ.get("DATABASE_URL")
-if bool(_db_url):
-    # Parse database configuration from $DATABASE_URL (expanding any env vars like ${POSTGRES_HOST})
-    DATABASES = {"default": dj_database_url.parse(os.path.expandvars(_db_url))}
+_db_url = _clean_env("DATABASE_URL")
+if _db_url and "${" not in _db_url:
+    DATABASES = {"default": dj_database_url.parse(_db_url)}
 else:
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.postgresql",
-            "NAME": os.environ.get("POSTGRES_DB"),
-            "USER": os.environ.get("POSTGRES_USER"),
-            "PASSWORD": os.environ.get("POSTGRES_PASSWORD"),
-            "HOST": os.environ.get("POSTGRES_HOST"),
-            "PORT": os.environ.get("POSTGRES_PORT", "5432"),
+            "NAME": _clean_env("POSTGRES_DB", "plane"),
+            "USER": _clean_env("POSTGRES_USER", "plane"),
+            "PASSWORD": _clean_env("POSTGRES_PASSWORD", "plane"),
+            "HOST": _clean_env("POSTGRES_HOST", "plane-db"),
+            "PORT": _clean_env("POSTGRES_PORT", "5432"),
         }
     }
 
 
 if os.environ.get("ENABLE_READ_REPLICA", "0") == "1":
-    _read_replica_url = os.environ.get("DATABASE_READ_REPLICA_URL")
-    if bool(_read_replica_url):
-        # Parse database configuration from $DATABASE_URL
-        DATABASES["replica"] = dj_database_url.parse(os.path.expandvars(_read_replica_url))
+    _read_replica_url = _clean_env("DATABASE_READ_REPLICA_URL")
+    if _read_replica_url and "${" not in _read_replica_url:
+        DATABASES["replica"] = dj_database_url.parse(_read_replica_url)
     else:
         DATABASES["replica"] = {
             "ENGINE": "django.db.backends.postgresql",
-            "NAME": os.environ.get("POSTGRES_READ_REPLICA_DB"),
-            "USER": os.environ.get("POSTGRES_READ_REPLICA_USER"),
-            "PASSWORD": os.environ.get("POSTGRES_READ_REPLICA_PASSWORD"),
-            "HOST": os.environ.get("POSTGRES_READ_REPLICA_HOST"),
-            "PORT": os.environ.get("POSTGRES_READ_REPLICA_PORT", "5432"),
+            "NAME": _clean_env("POSTGRES_READ_REPLICA_DB"),
+            "USER": _clean_env("POSTGRES_READ_REPLICA_USER"),
+            "PASSWORD": _clean_env("POSTGRES_READ_REPLICA_PASSWORD"),
+            "HOST": _clean_env("POSTGRES_READ_REPLICA_HOST"),
+            "PORT": _clean_env("POSTGRES_READ_REPLICA_PORT", "5432"),
         }
 
     # Database Routers
@@ -237,10 +244,14 @@ if os.environ.get("ENABLE_READ_REPLICA", "0") == "1":
 
 
 # Redis Config
-_redis_url = os.environ.get("REDIS_URL")
-_redis_host = os.environ.get("REDIS_HOST", "plane-redis")
-REDIS_URL = os.path.expandvars(_redis_url) if _redis_url else f"redis://{_redis_host}:6379/"
-REDIS_SSL = REDIS_URL and "rediss" in REDIS_URL
+_redis_url = _clean_env("REDIS_URL")
+if not _redis_url or "${" in _redis_url:
+    _redis_host = _clean_env("REDIS_HOST", "plane-redis")
+    _redis_port = _clean_env("REDIS_PORT", "6379")
+    REDIS_URL = f"redis://{_redis_host}:{_redis_port}/"
+else:
+    REDIS_URL = _redis_url
+REDIS_SSL = bool(REDIS_URL and "rediss" in REDIS_URL)
 
 if REDIS_SSL:
     CACHES = {
