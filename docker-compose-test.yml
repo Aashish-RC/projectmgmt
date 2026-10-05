@@ -72,7 +72,7 @@ services:
       retries: 10
 
   test-minio:
-    image: minio/minio
+    image: pgsty/minio:latest
     networks:
       - test_env
     env_file:
