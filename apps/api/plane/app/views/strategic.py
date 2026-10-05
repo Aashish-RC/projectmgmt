@@ -14,7 +14,7 @@ from plane.app.serializers import (
     ObjectiveSerializer,
 )
 from plane.app.views.base import BaseViewSet
-from plane.db.models import Idea, IdeaStatus, Issue, KeyResult, Module, Objective, Project, State, Workspace
+from plane.db.models import Idea, IdeaStatus, Issue, KeyResult, Module, Objective, State, Workspace
 
 
 class ObjectiveViewSet(BaseViewSet):

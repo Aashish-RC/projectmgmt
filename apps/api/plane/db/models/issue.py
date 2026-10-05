@@ -337,10 +337,14 @@ class Issue(ChangeTrackerMixin, ProjectBaseModel):
                 return None
             visited.add(node.id)
 
-            children_qs = Issue.objects.filter(
-                parent_id=node.id,
-                deleted_at__isnull=True,
-            ).select_related("state").order_by("sort_order", "sequence_id", "created_at")
+            children_qs = (
+                Issue.objects.filter(
+                    parent_id=node.id,
+                    deleted_at__isnull=True,
+                )
+                .select_related("state")
+                .order_by("sort_order", "sequence_id", "created_at")
+            )
 
             children_nodes = []
             for child in children_qs:
@@ -350,6 +354,7 @@ class Issue(ChangeTrackerMixin, ProjectBaseModel):
 
             state_group = node.state.group if node.state else None
             from plane.db.models.state import get_canonical_state_group
+
             canonical_group = get_canonical_state_group(state_group) if state_group else "unstarted"
 
             return {
@@ -392,7 +397,9 @@ class Issue(ChangeTrackerMixin, ProjectBaseModel):
                 Issue.objects.filter(
                     parent_id=current_id,
                     deleted_at__isnull=True,
-                ).select_related("state").values("id", "state__group")
+                )
+                .select_related("state")
+                .values("id", "state__group")
             )
 
             if depth == 0:
@@ -462,7 +469,6 @@ def get_cumulative_progress(issue_id, max_depth=20):
             "percent": 0.0,
         }
     return issue.get_cumulative_progress(max_depth=max_depth)
-
 
 
 class IssueBlocker(ProjectBaseModel):

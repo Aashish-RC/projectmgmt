@@ -15,6 +15,7 @@ class StateSerializer(BaseSerializer):
     Handles state creation and updates including default state validation
     and automatic default state switching for workflow management.
     """
+
     canonical_group = serializers.CharField(read_only=True)
 
     def validate(self, data):
@@ -49,6 +50,7 @@ class StateLiteSerializer(BaseSerializer):
     Provides essential state information including visual properties
     and grouping data optimized for UI display and filtering.
     """
+
     canonical_group = serializers.CharField(read_only=True)
 
     class Meta:

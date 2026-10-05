@@ -73,7 +73,6 @@ class IssueFlatSerializer(BaseSerializer):
         return getattr(obj, "wbs_number", None) or (obj.get_wbs_number() if hasattr(obj, "get_wbs_number") else None)
 
 
-
 class IssueProjectLiteSerializer(BaseSerializer):
     project_detail = ProjectLiteSerializer(source="project", read_only=True)
 
@@ -228,17 +227,29 @@ class IssueCreateSerializer(BaseSerializer):
                                 field_key = str(field).lower().strip()
                                 # 1. Target Date
                                 if field_key in ["target_date", "due_date"]:
-                                    val = attrs.get("target_date") if "target_date" in attrs else (getattr(self.instance, "target_date", None) if self.instance else None)
+                                    val = (
+                                        attrs.get("target_date")
+                                        if "target_date" in attrs
+                                        else (getattr(self.instance, "target_date", None) if self.instance else None)
+                                    )
                                     if not val:
                                         missing_fields.append("target_date")
                                 # 2. Start Date
                                 elif field_key == "start_date":
-                                    val = attrs.get("start_date") if "start_date" in attrs else (getattr(self.instance, "start_date", None) if self.instance else None)
+                                    val = (
+                                        attrs.get("start_date")
+                                        if "start_date" in attrs
+                                        else (getattr(self.instance, "start_date", None) if self.instance else None)
+                                    )
                                     if not val:
                                         missing_fields.append("start_date")
                                 # 3. Priority
                                 elif field_key == "priority":
-                                    val = attrs.get("priority") if "priority" in attrs else (getattr(self.instance, "priority", None) if self.instance else None)
+                                    val = (
+                                        attrs.get("priority")
+                                        if "priority" in attrs
+                                        else (getattr(self.instance, "priority", None) if self.instance else None)
+                                    )
                                     if not val or str(val).lower() in ["none", ""]:
                                         missing_fields.append("priority")
                                 # 4. Assignees
@@ -256,13 +267,27 @@ class IssueCreateSerializer(BaseSerializer):
                                             missing_fields.append("assignees")
                                 # 5. Estimate / Points
                                 elif field_key in ["estimate", "estimate_point", "point", "estimate_point_id"]:
-                                    val_ep = attrs.get("estimate_point") if "estimate_point" in attrs else (getattr(self.instance, "estimate_point", None) if self.instance else None)
-                                    val_pt = attrs.get("point") if "point" in attrs else (getattr(self.instance, "point", None) if self.instance else None)
+                                    val_ep = (
+                                        attrs.get("estimate_point")
+                                        if "estimate_point" in attrs
+                                        else (getattr(self.instance, "estimate_point", None) if self.instance else None)
+                                    )
+                                    val_pt = (
+                                        attrs.get("point")
+                                        if "point" in attrs
+                                        else (getattr(self.instance, "point", None) if self.instance else None)
+                                    )
                                     if not val_ep and val_pt is None:
                                         missing_fields.append("estimate_point")
                                 # 6. Description
                                 elif field_key in ["description", "description_html"]:
-                                    val = attrs.get("description_html") if "description_html" in attrs else (getattr(self.instance, "description_html", None) if self.instance else None)
+                                    val = (
+                                        attrs.get("description_html")
+                                        if "description_html" in attrs
+                                        else (
+                                            getattr(self.instance, "description_html", None) if self.instance else None
+                                        )
+                                    )
                                     if not val or val.strip() in ["", "<p></p>"]:
                                         missing_fields.append("description")
                                 # 7. Module
@@ -270,7 +295,11 @@ class IssueCreateSerializer(BaseSerializer):
                                     has_module = False
                                     if self.context.get("module_id"):
                                         has_module = True
-                                    elif self.instance and hasattr(self.instance, "issue_module") and self.instance.issue_module.exists():
+                                    elif (
+                                        self.instance
+                                        and hasattr(self.instance, "issue_module")
+                                        and self.instance.issue_module.exists()
+                                    ):
                                         has_module = True
                                     if not has_module:
                                         missing_fields.append("module")
@@ -279,7 +308,11 @@ class IssueCreateSerializer(BaseSerializer):
                                     has_cycle = False
                                     if self.context.get("cycle_id"):
                                         has_cycle = True
-                                    elif self.instance and hasattr(self.instance, "issue_cycle") and self.instance.issue_cycle.exists():
+                                    elif (
+                                        self.instance
+                                        and hasattr(self.instance, "issue_cycle")
+                                        and self.instance.issue_cycle.exists()
+                                    ):
                                         has_cycle = True
                                     if not has_cycle:
                                         missing_fields.append("cycle")
@@ -288,7 +321,10 @@ class IssueCreateSerializer(BaseSerializer):
                                 raise serializers.ValidationError(
                                     {
                                         "mandatory_fields": missing_fields,
-                                        "error": f"Missing mandatory fields required by project governance policy: {', '.join(missing_fields)}",
+                                        "error": (
+                                            "Missing mandatory fields required by project governance policy: "
+                                            f"{', '.join(missing_fields)}"
+                                        ),
                                     }
                                 )
             except serializers.ValidationError:
@@ -982,7 +1018,10 @@ class IssueListDetailSerializer(serializers.Serializer):
             "completed_sub_issues_count": getattr(instance, "completed_sub_issues_count", 0),
             "attachment_count": instance.attachment_count,
             "link_count": instance.link_count,
-            "wbs_number": getattr(instance, "wbs_number", None) or (instance.get_wbs_number() if hasattr(instance, "get_wbs_number") else None),
+            "wbs_number": (
+                getattr(instance, "wbs_number", None)
+                or (instance.get_wbs_number() if hasattr(instance, "get_wbs_number") else None)
+            ),
         }
 
         # Handle expanded fields only when requested - using direct field access

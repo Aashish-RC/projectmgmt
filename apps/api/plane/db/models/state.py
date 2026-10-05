@@ -11,6 +11,7 @@ from django.db.models import Q
 from .project import ProjectBaseModel
 from plane.db.mixins import SoftDeletionManager
 
+
 class StateGroup(models.TextChoices):
     BACKLOG = "backlog", "Backlog"
     UNSTARTED = "unstarted", "Unstarted"
@@ -22,6 +23,7 @@ class StateGroup(models.TextChoices):
 
 class CanonicalStateGroup(models.TextChoices):
     """Universal 3-State Normalizer Canonical Primitives (Vikunja Engine)"""
+
     UNSTARTED = "unstarted", "Unstarted"
     IN_PROGRESS = "in_progress", "In Progress"
     COMPLETED = "completed", "Completed"

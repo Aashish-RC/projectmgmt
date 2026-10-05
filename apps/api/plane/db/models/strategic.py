@@ -114,9 +114,7 @@ class KeyResult(ProjectBaseModel):
             if all_issue_ids:
                 total_issues = Issue.objects.filter(id__in=all_issue_ids, deleted_at__isnull=True)
                 total_count = total_issues.count()
-                completed_count = total_issues.filter(
-                    state__group__in=["completed", "cancelled"]
-                ).count()
+                completed_count = total_issues.filter(state__group__in=["completed", "cancelled"]).count()
 
                 if total_count > 0:
                     ratio = completed_count / total_count
