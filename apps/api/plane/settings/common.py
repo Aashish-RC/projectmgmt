@@ -222,6 +222,10 @@ else:
         }
     }
 
+_default_options = DATABASES["default"].setdefault("OPTIONS", {})
+if "sslmode" not in _default_options:
+    _default_options["sslmode"] = _clean_env("PGSSLMODE", "disable")
+
 
 if os.environ.get("ENABLE_READ_REPLICA", "0") == "1":
     _read_replica_url = _clean_env("DATABASE_READ_REPLICA_URL")
@@ -236,6 +240,9 @@ if os.environ.get("ENABLE_READ_REPLICA", "0") == "1":
             "HOST": _clean_env("POSTGRES_READ_REPLICA_HOST"),
             "PORT": _clean_env("POSTGRES_READ_REPLICA_PORT", "5432"),
         }
+    _replica_options = DATABASES["replica"].setdefault("OPTIONS", {})
+    if "sslmode" not in _replica_options:
+        _replica_options["sslmode"] = _clean_env("PGSSLMODE", "disable")
 
     # Database Routers
     DATABASE_ROUTERS = ["plane.utils.core.dbrouters.ReadReplicaRouter"]
