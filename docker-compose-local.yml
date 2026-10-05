@@ -64,6 +64,7 @@ services:
       - "5432:5432"
 
   api:
+    image: plane-api-dev:local
     build:
       context: ./apps/api
       dockerfile: Dockerfile.dev
@@ -85,11 +86,7 @@ services:
       - "8000:8000"
 
   worker:
-    build:
-      context: ./apps/api
-      dockerfile: Dockerfile.dev
-      args:
-        DOCKER_BUILDKIT: 1
+    image: plane-api-dev:local
     restart: unless-stopped
     networks:
       - dev_env
@@ -104,11 +101,7 @@ services:
       - plane-redis
 
   beat-worker:
-    build:
-      context: ./apps/api
-      dockerfile: Dockerfile.dev
-      args:
-        DOCKER_BUILDKIT: 1
+    image: plane-api-dev:local
     restart: unless-stopped
     networks:
       - dev_env
@@ -123,11 +116,7 @@ services:
       - plane-redis
 
   migrator:
-    build:
-      context: ./apps/api
-      dockerfile: Dockerfile.dev
-      args:
-        DOCKER_BUILDKIT: 1
+    image: plane-api-dev:local
     restart: "no"
     networks:
       - dev_env
@@ -137,6 +126,7 @@ services:
     env_file:
       - ./apps/api/.env
     depends_on:
+      - api
       - plane-db
       - plane-redis
 

@@ -11,25 +11,27 @@ RUN apk --no-cache add \
     "libpq" \
     "libxslt" \
     "nodejs-current" \
-    "xmlsec" \
-    "libffi-dev" \
-    "bash~=5.2" \
-    "g++" \
-    "gcc" \
-    "cargo" \
-    "git" \
-    "make" \
-    "postgresql-dev" \
-    "libc-dev" \
-    "linux-headers"
+    "xmlsec"
 
 WORKDIR /code
 
 COPY requirements.txt ./requirements.txt
 ADD requirements ./requirements
 
-# Install the local development settings
-RUN pip install -r requirements/local.txt --compile --no-cache-dir
+# Install build dependencies, compile Python packages, and remove build tools to save disk
+RUN apk add --no-cache libffi-dev \
+    && apk add --no-cache --virtual .build-deps \
+        "g++" \
+        "gcc" \
+        "cargo" \
+        "git" \
+        "make" \
+        "postgresql-dev" \
+        "libc-dev" \
+        "linux-headers" \
+    && pip install -r requirements/local.txt --compile --no-cache-dir \
+    && apk del .build-deps \
+    && rm -rf /var/cache/apk/* /root/.cache
 
 
 COPY . .
