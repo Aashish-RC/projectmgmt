@@ -16,8 +16,8 @@ export function RadialProgressBar(props: IRadialProgressBar) {
 
   useEffect(() => {
     const radius = 40;
-    const circumference = 2 * Math.PI * radius;
-    setCircumference(circumference);
+    const computedCircumference = 2 * Math.PI * radius;
+    setCircumference(computedCircumference);
   }, []);
 
   const progressOffset = ((100 - progress) / 100) * circumference;
