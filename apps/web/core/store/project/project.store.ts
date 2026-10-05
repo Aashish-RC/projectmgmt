@@ -54,7 +54,10 @@ export interface IProjectStore {
 
   // helper actions
   processProjectAfterCreation: (workspaceSlug: string, data: TProject) => void;
-  canUserToggleComplexity: (project: TProject | TPartialProject | undefined | null, userRole?: number | string | null) => boolean;
+  canUserToggleComplexity: (
+    project: TProject | TPartialProject | undefined | null,
+    userRole?: number | string | null
+  ) => boolean;
 
   // fetch actions
   fetchPartialProjects: (workspaceSlug: string) => Promise<TPartialProject[]>;
@@ -602,18 +605,17 @@ export class ProjectStore implements IProjectStore {
    * @returns Promise<void>
    */
   archiveProject = async (workspaceSlug: string, projectId: string) => {
-    await this.projectArchiveService
-      .archiveProject(workspaceSlug, projectId)
-      .then((response) => {
-        runInAction(() => {
-          set(this.projectMap, [projectId, "archived_at"], response.archived_at);
-          this.rootStore.favorite.removeFavoriteFromStore(projectId);
-        });
-      })
-      .catch((error) => {
-        console.log("Failed to archive project from project store");
-        throw error;
+    try {
+      const response = await this.projectArchiveService.archiveProject(workspaceSlug, projectId);
+      runInAction(() => {
+        set(this.projectMap, [projectId, "archived_at"], response.archived_at);
+        this.rootStore.favorite.removeFavoriteFromStore(projectId);
       });
+      return response;
+    } catch (error) {
+      console.log("Failed to archive project from project store");
+      throw error;
+    }
   };
 
   /**
@@ -623,17 +625,16 @@ export class ProjectStore implements IProjectStore {
    * @returns Promise<void>
    */
   restoreProject = async (workspaceSlug: string, projectId: string) => {
-    await this.projectArchiveService
-      .restoreProject(workspaceSlug, projectId)
-      .then(() => {
-        runInAction(() => {
-          set(this.projectMap, [projectId, "archived_at"], null);
-        });
-      })
-      .catch((error) => {
-        console.log("Failed to restore project from project store");
-        throw error;
+    try {
+      const response = await this.projectArchiveService.restoreProject(workspaceSlug, projectId);
+      runInAction(() => {
+        set(this.projectMap, [projectId, "archived_at"], null);
       });
+      return response;
+    } catch (error) {
+      console.log("Failed to restore project from project store");
+      throw error;
+    }
   };
 
   /**
@@ -670,4 +671,3 @@ export const canUserToggleComplexity = (
   const policy = project.complexity_policy ?? "bounded";
   return policy === "open";
 };
-

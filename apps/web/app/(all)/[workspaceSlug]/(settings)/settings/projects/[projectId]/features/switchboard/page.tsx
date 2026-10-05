@@ -30,10 +30,7 @@ function FeaturesSwitchboardSettingsPage() {
   const pageTitle = currentProjectDetails?.name
     ? `${currentProjectDetails?.name} settings - Feature Switchboard`
     : undefined;
-  const canPerformProjectAdminActions = allowPermissions(
-    [EUserPermissions.ADMIN],
-    EUserPermissionsLevel.PROJECT
-  );
+  const canPerformProjectAdminActions = allowPermissions([EUserPermissions.ADMIN], EUserPermissionsLevel.PROJECT);
 
   if (workspaceUserInfo && !canPerformProjectAdminActions) {
     return <NotAuthorizedView section="settings" isProjectView className="h-auto" />;

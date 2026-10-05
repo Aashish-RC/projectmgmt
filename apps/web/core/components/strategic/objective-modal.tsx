@@ -49,27 +49,27 @@ export const ObjectiveModal: React.FC<Props> = ({ isOpen, onClose, onSubmit }) =
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in">
-      <div className="w-full max-w-lg rounded-2xl border border-custom-border-200 bg-custom-background-100 shadow-2xl overflow-hidden animate-scale-up">
-        <div className="flex items-center justify-between p-5 border-b border-custom-border-100">
+    <div className="fixed inset-0 z-50 flex animate-fade-in items-center justify-center bg-black/60 p-4 backdrop-blur-sm">
+      <div className="border-custom-border-200 bg-custom-background-100 shadow-2xl animate-scale-up w-full max-w-lg overflow-hidden rounded-2xl border">
+        <div className="border-custom-border-100 flex items-center justify-between border-b p-5">
           <div className="flex items-center gap-2.5">
-            <div className="p-2 rounded-lg bg-custom-primary-100/10 text-custom-primary-100">
+            <div className="bg-custom-primary-100/10 text-custom-primary-100 rounded-lg p-2">
               <Target size={18} />
             </div>
-            <h2 className="text-base font-semibold text-custom-text-100">Create Strategic Objective</h2>
+            <h2 className="text-base text-custom-text-100 font-semibold">Create Strategic Objective</h2>
           </div>
           <button
             type="button"
             onClick={onClose}
-            className="p-1 rounded-lg text-custom-text-400 hover:text-custom-text-100 hover:bg-custom-background-80 transition-colors"
+            className="text-custom-text-400 hover:text-custom-text-100 hover:bg-custom-background-80 rounded-lg p-1 transition-colors"
           >
             <X size={18} />
           </button>
         </div>
 
-        <form onSubmit={handleSubmit} className="p-5 space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-4 p-5">
           <div>
-            <label htmlFor="objectiveTitle" className="block text-xs font-medium text-custom-text-200 mb-1.5">
+            <label htmlFor="objectiveTitle" className="text-xs text-custom-text-200 mb-1.5 block font-medium">
               Objective Title <span className="text-rose-500">*</span>
             </label>
             <input
@@ -79,12 +79,12 @@ export const ObjectiveModal: React.FC<Props> = ({ isOpen, onClose, onSubmit }) =
               placeholder="e.g., Accelerate Enterprise Market Adoption in Q4"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              className="w-full px-3.5 py-2 rounded-lg border border-custom-border-200 bg-custom-background-90 text-sm text-custom-text-100 placeholder:text-custom-text-400 focus:outline-none focus:border-custom-primary-100 transition-colors"
+              className="border-custom-border-200 bg-custom-background-90 text-sm text-custom-text-100 placeholder:text-custom-text-400 focus:border-custom-primary-100 w-full rounded-lg border px-3.5 py-2 transition-colors focus:outline-none"
             />
           </div>
 
           <div>
-            <label htmlFor="objectiveDescription" className="block text-xs font-medium text-custom-text-200 mb-1.5">
+            <label htmlFor="objectiveDescription" className="text-xs text-custom-text-200 mb-1.5 block font-medium">
               Description
             </label>
             <textarea
@@ -93,13 +93,13 @@ export const ObjectiveModal: React.FC<Props> = ({ isOpen, onClose, onSubmit }) =
               placeholder="Brief context and strategic rationale for this objective..."
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              className="w-full px-3.5 py-2 rounded-lg border border-custom-border-200 bg-custom-background-90 text-sm text-custom-text-100 placeholder:text-custom-text-400 focus:outline-none focus:border-custom-primary-100 transition-colors resize-none"
+              className="border-custom-border-200 bg-custom-background-90 text-sm text-custom-text-100 placeholder:text-custom-text-400 focus:border-custom-primary-100 w-full resize-none rounded-lg border px-3.5 py-2 transition-colors focus:outline-none"
             />
           </div>
 
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label htmlFor="objectiveStartDate" className="block text-xs font-medium text-custom-text-200 mb-1.5">
+              <label htmlFor="objectiveStartDate" className="text-xs text-custom-text-200 mb-1.5 block font-medium">
                 Start Date
               </label>
               <input
@@ -107,11 +107,11 @@ export const ObjectiveModal: React.FC<Props> = ({ isOpen, onClose, onSubmit }) =
                 type="date"
                 value={startDate}
                 onChange={(e) => setStartDate(e.target.value)}
-                className="w-full px-3 py-2 rounded-lg border border-custom-border-200 bg-custom-background-90 text-xs text-custom-text-100 focus:outline-none focus:border-custom-primary-100 transition-colors"
+                className="border-custom-border-200 bg-custom-background-90 text-xs text-custom-text-100 focus:border-custom-primary-100 w-full rounded-lg border px-3 py-2 transition-colors focus:outline-none"
               />
             </div>
             <div>
-              <label htmlFor="objectiveTargetDate" className="block text-xs font-medium text-custom-text-200 mb-1.5">
+              <label htmlFor="objectiveTargetDate" className="text-xs text-custom-text-200 mb-1.5 block font-medium">
                 Target Date
               </label>
               <input
@@ -119,20 +119,20 @@ export const ObjectiveModal: React.FC<Props> = ({ isOpen, onClose, onSubmit }) =
                 type="date"
                 value={targetDate}
                 onChange={(e) => setTargetDate(e.target.value)}
-                className="w-full px-3 py-2 rounded-lg border border-custom-border-200 bg-custom-background-90 text-xs text-custom-text-100 focus:outline-none focus:border-custom-primary-100 transition-colors"
+                className="border-custom-border-200 bg-custom-background-90 text-xs text-custom-text-100 focus:border-custom-primary-100 w-full rounded-lg border px-3 py-2 transition-colors focus:outline-none"
               />
             </div>
           </div>
 
           <div>
-            <label htmlFor="objectiveStatus" className="block text-xs font-medium text-custom-text-200 mb-1.5">
+            <label htmlFor="objectiveStatus" className="text-xs text-custom-text-200 mb-1.5 block font-medium">
               Initial Health Status
             </label>
             <select
               id="objectiveStatus"
               value={status}
               onChange={(e) => setStatus(e.target.value as ObjectiveStatus)}
-              className="w-full px-3 py-2 rounded-lg border border-custom-border-200 bg-custom-background-90 text-xs text-custom-text-100 focus:outline-none focus:border-custom-primary-100 transition-colors"
+              className="border-custom-border-200 bg-custom-background-90 text-xs text-custom-text-100 focus:border-custom-primary-100 w-full rounded-lg border px-3 py-2 transition-colors focus:outline-none"
             >
               <option value="on_track">On Track</option>
               <option value="at_risk">At Risk</option>
@@ -141,18 +141,18 @@ export const ObjectiveModal: React.FC<Props> = ({ isOpen, onClose, onSubmit }) =
             </select>
           </div>
 
-          <div className="flex items-center justify-end gap-3 pt-3 border-t border-custom-border-100">
+          <div className="border-custom-border-100 flex items-center justify-end gap-3 border-t pt-3">
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 rounded-lg text-xs font-medium text-custom-text-300 hover:text-custom-text-100 hover:bg-custom-background-80 transition-colors"
+              className="text-xs text-custom-text-300 hover:text-custom-text-100 hover:bg-custom-background-80 rounded-lg px-4 py-2 font-medium transition-colors"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={submitting || !title.trim()}
-              className="px-4 py-2 rounded-lg text-xs font-semibold bg-custom-primary-100 text-white hover:opacity-90 disabled:opacity-50 transition-opacity"
+              className="text-xs bg-custom-primary-100 rounded-lg px-4 py-2 font-semibold text-white transition-opacity hover:opacity-90 disabled:opacity-50"
             >
               {submitting ? "Creating..." : "Create Objective"}
             </button>

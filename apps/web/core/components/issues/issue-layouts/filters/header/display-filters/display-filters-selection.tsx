@@ -70,15 +70,15 @@ export const DisplayFiltersSelection = observer(function DisplayFiltersSelection
         <div className="py-2">
           <div className="flex items-center justify-between text-11 font-medium text-tertiary">
             <span>Card Presentation</span>
-            <span className="text-[10px] text-placeholder uppercase tracking-wider font-semibold">Planka Tactile</span>
+            <span className="tracking-wider text-[10px] font-semibold text-placeholder uppercase">Planka Tactile</span>
           </div>
           <div className="mt-1.5 flex items-center gap-2">
             <button
               type="button"
               className={`flex-1 rounded-sm border px-2 py-1 text-11 font-medium transition-all ${
                 kanbanView.cardDisplayDensity === "compact_minimal"
-                  ? "border-accent-strong bg-accent-primary text-on-color shadow-sm"
-                  : "border-subtle hover:bg-layer-1 text-secondary"
+                  ? "shadow-sm border-accent-strong bg-accent-primary text-on-color"
+                  : "border-subtle text-secondary hover:bg-layer-1"
               }`}
               onClick={() => {
                 kanbanView.setCardDisplayDensity("compact_minimal");
@@ -91,8 +91,8 @@ export const DisplayFiltersSelection = observer(function DisplayFiltersSelection
               type="button"
               className={`flex-1 rounded-sm border px-2 py-1 text-11 font-medium transition-all ${
                 kanbanView.cardDisplayDensity === "detailed_agile"
-                  ? "border-accent-strong bg-accent-primary text-on-color shadow-sm"
-                  : "border-subtle hover:bg-layer-1 text-secondary"
+                  ? "shadow-sm border-accent-strong bg-accent-primary text-on-color"
+                  : "border-subtle text-secondary hover:bg-layer-1"
               }`}
               onClick={() => {
                 kanbanView.setCardDisplayDensity("detailed_agile");

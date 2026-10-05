@@ -7,17 +7,17 @@
 import React, { useState } from "react";
 import { observer } from "mobx-react";
 import { format } from "date-fns";
-import { 
-  ChevronDown, 
-  ChevronRight, 
-  Plus, 
-  Target, 
-  Calendar, 
-  CheckCircle2, 
-  AlertTriangle, 
-  Clock, 
-  Layers, 
-  RefreshCw 
+import {
+  ChevronDown,
+  ChevronRight,
+  Plus,
+  Target,
+  Calendar,
+  CheckCircle2,
+  AlertTriangle,
+  Clock,
+  Layers,
+  RefreshCw,
 } from "lucide-react";
 import type { ObjectiveStatus, TKeyResult, TObjective } from "@plane/types";
 
@@ -65,71 +65,70 @@ export const ObjectiveCard: React.FC<Props> = observer(({ objective, keyResults,
   const StatusIcon = statusConfig.icon;
 
   // Calculate live progress: if auto-computed, average child key results
-  const progress = keyResults.length > 0
-    ? Math.round(keyResults.reduce((acc, kr) => acc + (kr.progress_percentage || 0), 0) / keyResults.length)
-    : (objective.progress || 0);
+  const progress =
+    keyResults.length > 0
+      ? Math.round(keyResults.reduce((acc, kr) => acc + (kr.progress_percentage || 0), 0) / keyResults.length)
+      : objective.progress || 0;
 
   return (
-    <div className="rounded-xl border border-custom-border-200 bg-custom-background-100 shadow-sm transition-all hover:border-custom-border-300 overflow-hidden">
+    <div className="border-custom-border-200 bg-custom-background-100 shadow-sm hover:border-custom-border-300 overflow-hidden rounded-xl border transition-all">
       {/* Card Header */}
-      <div className="p-5 flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-custom-border-100 bg-custom-background-90/50">
-        <div className="flex items-start gap-3 flex-1">
+      <div className="border-custom-border-100 bg-custom-background-90/50 flex flex-col justify-between gap-4 border-b p-5 md:flex-row md:items-center">
+        <div className="flex flex-1 items-start gap-3">
           <button
             type="button"
             onClick={() => setExpanded(!expanded)}
-            className="p-1 mt-0.5 rounded text-custom-text-300 hover:text-custom-text-100 hover:bg-custom-background-80 transition-colors"
+            className="text-custom-text-300 hover:text-custom-text-100 hover:bg-custom-background-80 mt-0.5 rounded p-1 transition-colors"
           >
             {expanded ? <ChevronDown size={18} /> : <ChevronRight size={18} />}
           </button>
-          
+
           <div className="flex-1">
-            <div className="flex flex-wrap items-center gap-2.5 mb-1.5">
-              <span className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium border ${statusConfig.bg} ${statusConfig.text} ${statusConfig.border}`}>
+            <div className="mb-1.5 flex flex-wrap items-center gap-2.5">
+              <span
+                className={`text-xs inline-flex items-center gap-1.5 rounded-full border px-2.5 py-0.5 font-medium ${statusConfig.bg} ${statusConfig.text} ${statusConfig.border}`}
+              >
                 <StatusIcon size={12} />
                 {statusConfig.label}
               </span>
-              
+
               {objective.target_date && (
-                <span className="inline-flex items-center gap-1 text-xs text-custom-text-300">
+                <span className="text-xs text-custom-text-300 inline-flex items-center gap-1">
                   <Calendar size={12} />
                   Target: {format(new Date(objective.target_date), "MMM d, yyyy")}
                 </span>
               )}
 
-              <span className="inline-flex items-center gap-1 text-xs text-custom-text-300">
+              <span className="text-xs text-custom-text-300 inline-flex items-center gap-1">
                 <Target size={12} />
                 {keyResults.length} Key {keyResults.length === 1 ? "Result" : "Results"}
               </span>
             </div>
 
-            <h3 className="text-base font-semibold text-custom-text-100 tracking-tight">
-              {objective.title}
-            </h3>
+            <h3 className="text-base text-custom-text-100 font-semibold tracking-tight">{objective.title}</h3>
             {objective.description && (
-              <p className="text-xs text-custom-text-300 mt-1 line-clamp-2 max-w-3xl">
-                {objective.description}
-              </p>
+              <p className="text-xs text-custom-text-300 mt-1 line-clamp-2 max-w-3xl">{objective.description}</p>
             )}
           </div>
         </div>
 
         {/* Progress & Quick Actions */}
         <div className="flex items-center gap-6 self-end md:self-center">
-          <div className="flex flex-col items-end gap-1.5 min-w-[130px]">
-            <div className="flex items-center justify-between w-full text-xs">
+          <div className="flex min-w-[130px] flex-col items-end gap-1.5">
+            <div className="text-xs flex w-full items-center justify-between">
               <span className="text-custom-text-300 font-medium">Progress</span>
-              <span className="font-semibold text-custom-text-100">{progress}%</span>
+              <span className="text-custom-text-100 font-semibold">{progress}%</span>
             </div>
-            <div className="w-full h-2 rounded-full bg-custom-background-80 overflow-hidden">
+            <div className="bg-custom-background-80 h-2 w-full overflow-hidden rounded-full">
               <div
-                className={`h-full transition-all duration-500 rounded-full ${
+                className={`h-full rounded-full transition-all duration-500 ${
                   progress >= 100
                     ? "bg-blue-500"
                     : progress >= 60
-                    ? "bg-emerald-500"
-                    : progress >= 30
-                    ? "bg-amber-500"
-                    : "bg-rose-500"
+                      ? "bg-emerald-500"
+                      : progress >= 30
+                        ? "bg-amber-500"
+                        : "bg-rose-500"
                 }`}
                 style={{ width: `${Math.min(Math.max(progress, 0), 100)}%` }}
               />
@@ -139,7 +138,7 @@ export const ObjectiveCard: React.FC<Props> = observer(({ objective, keyResults,
           <button
             type="button"
             onClick={() => onAddKeyResult(objective.id)}
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium bg-custom-primary-100/10 text-custom-primary-100 hover:bg-custom-primary-100/20 border border-custom-primary-100/20 transition-all shrink-0"
+            className="text-xs bg-custom-primary-100/10 text-custom-primary-100 hover:bg-custom-primary-100/20 border-custom-primary-100/20 inline-flex shrink-0 items-center gap-1.5 rounded-lg border px-3 py-1.5 font-medium transition-all"
           >
             <Plus size={14} />
             <span>Add KR</span>
@@ -149,9 +148,9 @@ export const ObjectiveCard: React.FC<Props> = observer(({ objective, keyResults,
 
       {/* Expanded Key Results Breakdown */}
       {expanded && (
-        <div className="p-4 space-y-3 bg-custom-background-100/40">
+        <div className="bg-custom-background-100/40 space-y-3 p-4">
           {keyResults.length === 0 ? (
-            <div className="py-6 text-center text-xs text-custom-text-400">
+            <div className="text-xs text-custom-text-400 py-6 text-center">
               No Key Results defined yet. Click "Add KR" to track measurable outcomes.
             </div>
           ) : (
@@ -160,17 +159,15 @@ export const ObjectiveCard: React.FC<Props> = observer(({ objective, keyResults,
               return (
                 <div
                   key={kr.id}
-                  className="p-3.5 rounded-lg border border-custom-border-100 bg-custom-background-90/80 hover:border-custom-border-200 transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-3"
+                  className="border-custom-border-100 bg-custom-background-90/80 hover:border-custom-border-200 flex flex-col justify-between gap-3 rounded-lg border p-3.5 transition-all sm:flex-row sm:items-center"
                 >
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2 mb-1">
-                      <span className="font-medium text-xs text-custom-text-100 truncate">
-                        {kr.title}
-                      </span>
+                  <div className="min-w-0 flex-1">
+                    <div className="mb-1 flex items-center gap-2">
+                      <span className="text-xs text-custom-text-100 truncate font-medium">{kr.title}</span>
                       {kr.auto_compute && (
                         <span
                           title="Auto-computes from completed issues in linked Cycles and Modules"
-                          className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-medium bg-sky-500/10 text-sky-400 border border-sky-500/20"
+                          className="bg-sky-500/10 text-sky-400 border-sky-500/20 inline-flex items-center gap-1 rounded border px-1.5 py-0.5 text-[10px] font-medium"
                         >
                           <RefreshCw size={10} className="animate-spin-slow" />
                           Auto-rollup
@@ -178,7 +175,7 @@ export const ObjectiveCard: React.FC<Props> = observer(({ objective, keyResults,
                       )}
                     </div>
 
-                    <div className="flex items-center gap-3 text-[11px] text-custom-text-300">
+                    <div className="text-custom-text-300 flex items-center gap-3 text-[11px]">
                       <span>
                         Value: {kr.current_value} / {kr.target_value} {kr.unit}
                       </span>
@@ -196,16 +193,14 @@ export const ObjectiveCard: React.FC<Props> = observer(({ objective, keyResults,
                   </div>
 
                   {/* KR Progress */}
-                  <div className="flex items-center gap-3 sm:w-44 shrink-0">
-                    <div className="flex-1 h-1.5 rounded-full bg-custom-background-80 overflow-hidden">
+                  <div className="flex shrink-0 items-center gap-3 sm:w-44">
+                    <div className="bg-custom-background-80 h-1.5 flex-1 overflow-hidden rounded-full">
                       <div
-                        className="h-full bg-custom-primary-100 rounded-full transition-all duration-300"
+                        className="bg-custom-primary-100 h-full rounded-full transition-all duration-300"
                         style={{ width: `${Math.min(Math.max(krProgress, 0), 100)}%` }}
                       />
                     </div>
-                    <span className="text-xs font-semibold text-custom-text-200 w-10 text-right">
-                      {krProgress}%
-                    </span>
+                    <span className="text-xs text-custom-text-200 w-10 text-right font-semibold">{krProgress}%</span>
                   </div>
                 </div>
               );

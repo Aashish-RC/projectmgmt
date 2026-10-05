@@ -29,13 +29,23 @@ export interface IOkrStore {
   // Objectives Actions
   fetchObjectives: (workspaceSlug: string, projectId: string) => Promise<TObjective[]>;
   createObjective: (workspaceSlug: string, projectId: string, data: Partial<TObjective>) => Promise<TObjective>;
-  updateObjective: (workspaceSlug: string, projectId: string, objectiveId: string, data: Partial<TObjective>) => Promise<TObjective>;
+  updateObjective: (
+    workspaceSlug: string,
+    projectId: string,
+    objectiveId: string,
+    data: Partial<TObjective>
+  ) => Promise<TObjective>;
   deleteObjective: (workspaceSlug: string, projectId: string, objectiveId: string) => Promise<void>;
 
   // Key Results Actions
   fetchKeyResults: (workspaceSlug: string, projectId: string, objectiveId?: string) => Promise<TKeyResult[]>;
   createKeyResult: (workspaceSlug: string, projectId: string, data: Partial<TKeyResult>) => Promise<TKeyResult>;
-  updateKeyResult: (workspaceSlug: string, projectId: string, keyResultId: string, data: Partial<TKeyResult>) => Promise<TKeyResult>;
+  updateKeyResult: (
+    workspaceSlug: string,
+    projectId: string,
+    keyResultId: string,
+    data: Partial<TKeyResult>
+  ) => Promise<TKeyResult>;
   deleteKeyResult: (workspaceSlug: string, projectId: string, keyResultId: string) => Promise<void>;
 
   // Ideas Actions
@@ -44,8 +54,16 @@ export interface IOkrStore {
   updateIdea: (workspaceSlug: string, projectId: string, ideaId: string, data: Partial<TIdea>) => Promise<TIdea>;
   deleteIdea: (workspaceSlug: string, projectId: string, ideaId: string) => Promise<void>;
   upvoteIdea: (workspaceSlug: string, projectId: string, ideaId: string) => Promise<TIdea>;
-  convertIdeaToIssue: (workspaceSlug: string, projectId: string, ideaId: string) => Promise<{ idea: TIdea; issue_id: string }>;
-  convertIdeaToModule: (workspaceSlug: string, projectId: string, ideaId: string) => Promise<{ idea: TIdea; module_id: string }>;
+  convertIdeaToIssue: (
+    workspaceSlug: string,
+    projectId: string,
+    ideaId: string
+  ) => Promise<{ idea: TIdea; issue_id: string }>;
+  convertIdeaToModule: (
+    workspaceSlug: string,
+    projectId: string,
+    ideaId: string
+  ) => Promise<{ idea: TIdea; module_id: string }>;
 }
 
 export class OkrStore implements IOkrStore {
@@ -139,7 +157,11 @@ export class OkrStore implements IOkrStore {
     }
   };
 
-  createObjective = async (workspaceSlug: string, projectId: string, data: Partial<TObjective>): Promise<TObjective> => {
+  createObjective = async (
+    workspaceSlug: string,
+    projectId: string,
+    data: Partial<TObjective>
+  ): Promise<TObjective> => {
     const response = await strategicService.createObjective(workspaceSlug, projectId, data);
     runInAction(() => {
       this.objectiveMap[response.id] = response;
@@ -187,7 +209,11 @@ export class OkrStore implements IOkrStore {
     return response;
   };
 
-  createKeyResult = async (workspaceSlug: string, projectId: string, data: Partial<TKeyResult>): Promise<TKeyResult> => {
+  createKeyResult = async (
+    workspaceSlug: string,
+    projectId: string,
+    data: Partial<TKeyResult>
+  ): Promise<TKeyResult> => {
     const response = await strategicService.createKeyResult(workspaceSlug, projectId, data);
     runInAction(() => {
       this.keyResultMap[response.id] = response;
@@ -253,7 +279,12 @@ export class OkrStore implements IOkrStore {
     return response;
   };
 
-  updateIdea = async (workspaceSlug: string, projectId: string, ideaId: string, data: Partial<TIdea>): Promise<TIdea> => {
+  updateIdea = async (
+    workspaceSlug: string,
+    projectId: string,
+    ideaId: string,
+    data: Partial<TIdea>
+  ): Promise<TIdea> => {
     const response = await strategicService.updateIdea(workspaceSlug, projectId, ideaId, data);
     runInAction(() => {
       this.ideaMap[response.id] = {

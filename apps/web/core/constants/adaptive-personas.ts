@@ -4,11 +4,7 @@
  * See the LICENSE file for details.
  */
 
-import {
-  Zap,
-  Layers,
-  GitBranch,
-} from "lucide-react";
+import { Zap, Layers, GitBranch } from "lucide-react";
 import type { ComplexityTier, IPersonaManifest } from "@plane/types";
 import { MINIMAL_PERSONA, STANDARD_PERSONA, DEEP_PERSONA, PERSONA_MANIFESTS } from "@plane/types";
 
@@ -71,10 +67,7 @@ export const ADAPTIVE_PERSONA_VISUALS: Record<ComplexityTier, IPersonaVisualMeta
       "Universal 3-State category normalizer",
       "Multi-assignee & label filters",
     ],
-    disabledHighlights: [
-      "Critical path calculation disabled",
-      "WBS numbering hidden by default",
-    ],
+    disabledHighlights: ["Critical path calculation disabled", "WBS numbering hidden by default"],
     previewElements: {
       sidebarCount: "5 Active Items (Cycles, Modules, etc.)",
       cardDensityText: "Detailed Agile (Chips + Estimates)",

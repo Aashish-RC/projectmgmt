@@ -26,7 +26,7 @@ export const IssueIdentifier = observer(function IssueIdentifier(props: TIssueId
   const projectIdentifier = isUsingStoreData ? getProjectIdentifierById(projectId) : props.projectIdentifier;
   const issueSequenceId = isUsingStoreData ? issue?.sequence_id : props.issueSequenceId;
   const shouldRenderIssueID = displayProperties ? displayProperties.key : true;
-  const shouldRenderWBS = displayProperties ? displayProperties.wbs ?? true : true;
+  const shouldRenderWBS = displayProperties ? (displayProperties.wbs ?? true) : true;
 
   if (!shouldRenderIssueID) return null;
 
@@ -45,7 +45,7 @@ export const IssueIdentifier = observer(function IssueIdentifier(props: TIssueId
     <div className="flex shrink-0 items-center space-x-1.5">
       {shouldRenderWBS && wbsNumber && (
         <span
-          className="inline-flex items-center rounded bg-layer-2 px-1.5 py-0.5 text-[10px] font-mono font-semibold tracking-wide text-secondary border border-border-subtle"
+          className="font-mono border-border-subtle inline-flex items-center rounded border bg-layer-2 px-1.5 py-0.5 text-[10px] font-semibold tracking-wide text-secondary"
           title={`Work Breakdown Structure (WBS): ${wbsNumber}`}
         >
           [{wbsNumber}]

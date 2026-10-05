@@ -89,9 +89,7 @@ export class IssueKanBanViewStore implements IIssueKanBanViewStore {
   };
 
   toggleCardDisplayDensity = () => {
-    this.setCardDisplayDensity(
-      this.cardDisplayDensity === "compact_minimal" ? "detailed_agile" : "compact_minimal"
-    );
+    this.setCardDisplayDensity(this.cardDisplayDensity === "compact_minimal" ? "detailed_agile" : "compact_minimal");
   };
 
   setIsDragging = (isDragging: boolean) => {

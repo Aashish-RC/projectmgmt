@@ -146,12 +146,8 @@ export const ProjectFeaturesList = observer(function ProjectFeaturesList(props: 
           ))}
         </div>
 
-        <div className="mt-10 pt-10 border-t border-border-100">
-          <FeaturesSwitchboard
-            workspaceSlug={workspaceSlug}
-            projectId={projectId}
-            isAdmin={isAdmin}
-          />
+        <div className="border-border-100 mt-10 border-t pt-10">
+          <FeaturesSwitchboard workspaceSlug={workspaceSlug} projectId={projectId} isAdmin={isAdmin} />
         </div>
       </div>
     </>

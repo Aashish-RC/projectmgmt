@@ -27,7 +27,7 @@ export const PersonaPreviewCards: React.FC<Props> = ({
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
+      <div className="grid grid-cols-1 gap-5 lg:grid-cols-3">
         {tiers.map((tierKey) => {
           const meta = ADAPTIVE_PERSONA_VISUALS[tierKey];
           const isSelected = selectedTier === tierKey;
@@ -37,110 +37,102 @@ export const PersonaPreviewCards: React.FC<Props> = ({
             <div
               key={tierKey}
               className={cn(
-                "relative flex flex-col justify-between rounded-2xl border transition-all overflow-hidden",
+                "relative flex flex-col justify-between overflow-hidden rounded-2xl border transition-all",
                 isSelected
-                  ? "border-primary-500 bg-surface-1 shadow-md ring-2 ring-primary-500/20"
-                  : "border-border-200 bg-surface-1 hover:border-border-300 hover:shadow-sm"
+                  ? "border-primary-500 shadow-md ring-primary-500/20 bg-surface-1 ring-2"
+                  : "border-border-200 hover:border-border-300 hover:shadow-sm bg-surface-1"
               )}
             >
               {/* Top Accent Gradient Bar */}
               <div
                 className={cn(
                   "h-1.5 w-full",
-                  tierKey === "minimal" && "bg-gradient-to-r from-amber-400 to-amber-600",
-                  tierKey === "standard" && "bg-gradient-to-r from-blue-400 to-indigo-600",
-                  tierKey === "deep" && "bg-gradient-to-r from-purple-500 to-fuchsia-600"
+                  tierKey === "minimal" && "from-amber-400 to-amber-600 bg-gradient-to-r",
+                  tierKey === "standard" && "from-blue-400 to-indigo-600 bg-gradient-to-r",
+                  tierKey === "deep" && "from-purple-500 to-fuchsia-600 bg-gradient-to-r"
                 )}
               />
 
-              <div className="p-5 flex flex-col gap-4">
+              <div className="flex flex-col gap-4 p-5">
                 {/* Header */}
                 <div className="flex items-start justify-between gap-3">
                   <div className="flex items-center gap-2.5">
-                    <div className={cn("p-2 rounded-xl", meta.badgeBg)}>
+                    <div className={cn("rounded-xl p-2", meta.badgeBg)}>
                       <Icon className="h-5 w-5" />
                     </div>
                     <div>
-                      <h3 className="text-base font-bold text-primary tracking-tight">
-                        {meta.manifest.label}
-                      </h3>
-                      <span className="text-[11px] font-medium text-secondary">
-                        {meta.headline}
-                      </span>
+                      <h3 className="text-base font-bold tracking-tight text-primary">{meta.manifest.label}</h3>
+                      <span className="text-[11px] font-medium text-secondary">{meta.headline}</span>
                     </div>
                   </div>
 
                   {isSelected && (
-                    <span className="flex items-center gap-1 text-[11px] font-bold px-2 py-0.5 rounded-full bg-primary-500 text-white shadow-xs">
+                    <span className="bg-primary-500 shadow-xs flex items-center gap-1 rounded-full px-2 py-0.5 text-[11px] font-bold text-white">
                       <Check className="h-3 w-3 stroke-[3]" /> Active
                     </span>
                   )}
                 </div>
 
-                <p className="text-xs text-tertiary leading-relaxed">
-                  {meta.manifest.description}
-                </p>
+                <p className="text-xs leading-relaxed text-tertiary">{meta.manifest.description}</p>
 
                 {/* Mock UI Preview Illustration */}
-                <div className="rounded-xl border border-border-200 bg-surface-2/60 p-3 flex flex-col gap-2.5">
+                <div className="border-border-200 flex flex-col gap-2.5 rounded-xl border bg-surface-2/60 p-3">
                   <div className="flex items-center justify-between text-[11px] font-semibold text-secondary">
                     <span className="flex items-center gap-1.5">
-                      <Eye className="h-3.5 w-3.5 text-primary-500" />
+                      <Eye className="text-primary-500 h-3.5 w-3.5" />
                       UI Layout Profile
                     </span>
-                    <span className="text-[10px] text-tertiary font-mono">
-                      {meta.previewElements.defaultLayout}
-                    </span>
+                    <span className="font-mono text-[10px] text-tertiary">{meta.previewElements.defaultLayout}</span>
                   </div>
 
                   {/* Wireframe Mock */}
-                  <div className="rounded-lg border border-border-100 bg-surface-1 p-2.5 flex gap-2">
+                  <div className="border-border-100 flex gap-2 rounded-lg border bg-surface-1 p-2.5">
                     {/* Mock Sidebar */}
-                    <div className="w-16 rounded bg-surface-2 p-1.5 flex flex-col gap-1 shrink-0">
-                      <div className="h-1.5 w-8 rounded bg-placeholder/60" />
-                      <div className="h-1.5 w-10 rounded bg-primary-500/50" />
+                    <div className="flex w-16 shrink-0 flex-col gap-1 rounded bg-surface-2 p-1.5">
+                      <div className="bg-placeholder/60 h-1.5 w-8 rounded" />
+                      <div className="bg-primary-500/50 h-1.5 w-10 rounded" />
                       {tierKey !== "minimal" && (
                         <>
-                          <div className="h-1.5 w-7 rounded bg-placeholder/40" />
-                          <div className="h-1.5 w-9 rounded bg-placeholder/40" />
+                          <div className="bg-placeholder/40 h-1.5 w-7 rounded" />
+                          <div className="bg-placeholder/40 h-1.5 w-9 rounded" />
                         </>
                       )}
                       {tierKey === "deep" && (
                         <>
-                          <div className="h-1.5 w-8 rounded bg-placeholder/40" />
-                          <div className="h-1.5 w-6 rounded bg-placeholder/40" />
+                          <div className="bg-placeholder/40 h-1.5 w-8 rounded" />
+                          <div className="bg-placeholder/40 h-1.5 w-6 rounded" />
                         </>
                       )}
                     </div>
 
                     {/* Mock Content Board/List */}
-                    <div className="flex-1 flex flex-col gap-1.5">
+                    <div className="flex flex-1 flex-col gap-1.5">
                       <div className="flex items-center justify-between">
-                        <div className="h-2 w-16 rounded bg-placeholder/50" />
-                        <div className="h-2 w-6 rounded bg-primary-500/30" />
+                        <div className="bg-placeholder/50 h-2 w-16 rounded" />
+                        <div className="bg-primary-500/30 h-2 w-6 rounded" />
                       </div>
 
                       {/* Mock Cards */}
                       <div className="flex flex-col gap-1">
-                        <div className="rounded border border-border-100 bg-surface-2 p-1.5 flex items-center justify-between">
-                          <div className="h-1.5 w-20 rounded bg-secondary/60" />
-                          {tierKey === "minimal" && <div className="h-1.5 w-3 rounded-full bg-emerald-500" />}
+                        <div className="border-border-100 flex items-center justify-between rounded border bg-surface-2 p-1.5">
+                          <div className="bg-secondary/60 h-1.5 w-20 rounded" />
+                          {tierKey === "minimal" && <div className="bg-emerald-500 h-1.5 w-3 rounded-full" />}
                           {tierKey === "standard" && (
                             <div className="flex gap-1">
-                              <div className="h-1.5 w-4 rounded bg-blue-500/50" />
-                              <div className="h-1.5 w-3 rounded-full bg-amber-500" />
+                              <div className="bg-blue-500/50 h-1.5 w-4 rounded" />
+                              <div className="bg-amber-500 h-1.5 w-3 rounded-full" />
                             </div>
                           )}
                           {tierKey === "deep" && (
-                            <div className="flex items-center gap-1 font-mono text-[8px] text-tertiary">
-                              <span className="text-[8px] font-bold text-primary-500">1.2.1</span>
-                              <div className="h-1.5 w-4 rounded bg-purple-500/50" />
+                            <div className="font-mono flex items-center gap-1 text-[8px] text-tertiary">
+                              <span className="text-primary-500 text-[8px] font-bold">1.2.1</span>
+                              <div className="bg-purple-500/50 h-1.5 w-4 rounded" />
                             </div>
                           )}
                         </div>
-                        <div className="rounded border border-border-100 bg-surface-2 p-1.5 flex items-center justify-between">
-                          <div className="h-1.5 w-14 rounded bg-secondary/60" />
-                          <div className="h-1.5 w-3 rounded-full bg-blue-500" />
+                        <div className="border-border-100 flex items-center justify-between rounded border bg-surface-2 p-1.5">
+                          <div className="bg-secondary/60 h-1.5 w-14 rounded" />
+                          <div className="bg-blue-500 h-1.5 w-3 rounded-full" />
                         </div>
                       </div>
                     </div>
@@ -161,13 +153,13 @@ export const PersonaPreviewCards: React.FC<Props> = ({
 
                 {/* Key Feature Highlights */}
                 <div className="flex flex-col gap-1.5">
-                  <span className="text-[11px] font-semibold uppercase tracking-wider text-secondary">
+                  <span className="tracking-wider text-[11px] font-semibold text-secondary uppercase">
                     Included Features
                   </span>
                   <div className="flex flex-col gap-1">
                     {meta.keyHighlights.map((hl) => (
-                      <div key={hl} className="flex items-center gap-2 text-xs text-primary">
-                        <div className="h-1.5 w-1.5 rounded-full bg-primary-500 shrink-0" />
+                      <div key={hl} className="text-xs flex items-center gap-2 text-primary">
+                        <div className="bg-primary-500 h-1.5 w-1.5 shrink-0 rounded-full" />
                         <span>{hl}</span>
                       </div>
                     ))}
@@ -176,13 +168,13 @@ export const PersonaPreviewCards: React.FC<Props> = ({
 
                 {/* Streamlined / Hidden Notice */}
                 {meta.disabledHighlights.length > 0 && (
-                  <div className="flex flex-col gap-1 pt-1 border-t border-border-100">
-                    <span className="text-[10px] font-semibold uppercase tracking-wider text-placeholder">
+                  <div className="border-border-100 flex flex-col gap-1 border-t pt-1">
+                    <span className="tracking-wider text-[10px] font-semibold text-placeholder uppercase">
                       Streamlined Out of View
                     </span>
                     <div className="flex flex-col gap-0.5">
                       {meta.disabledHighlights.map((dh) => (
-                        <div key={dh} className="text-[11px] text-tertiary flex items-center gap-1.5">
+                        <div key={dh} className="flex items-center gap-1.5 text-[11px] text-tertiary">
                           <span className="text-placeholder">-</span>
                           <span>{dh}</span>
                         </div>
@@ -193,7 +185,7 @@ export const PersonaPreviewCards: React.FC<Props> = ({
               </div>
 
               {/* Bottom Card Action */}
-              <div className="p-4 border-t border-border-100 bg-surface-2/40 flex items-center justify-between">
+              <div className="border-border-100 flex items-center justify-between border-t bg-surface-2/40 p-4">
                 <span className="text-[11px] text-tertiary">
                   Target: <strong className="text-secondary">{meta.manifest.targetAudience.split(",")[0]}</strong>
                 </span>
@@ -203,11 +195,11 @@ export const PersonaPreviewCards: React.FC<Props> = ({
                   onClick={() => onSelectTier?.(tierKey)}
                   disabled={disabled || isSelected}
                   className={cn(
-                    "px-3 py-1.5 rounded-lg text-xs font-semibold transition-all shadow-xs cursor-pointer",
+                    "text-xs shadow-xs cursor-pointer rounded-lg px-3 py-1.5 font-semibold transition-all",
                     isSelected
-                      ? "bg-primary-500/10 text-primary-500 border border-primary-500/20 cursor-default"
-                      : "bg-surface-1 text-primary border border-border-200 hover:bg-surface-2 hover:border-border-300",
-                    disabled && "opacity-60 cursor-not-allowed"
+                      ? "bg-primary-500/10 text-primary-500 border-primary-500/20 cursor-default border"
+                      : "border-border-200 hover:border-border-300 border bg-surface-1 text-primary hover:bg-surface-2",
+                    disabled && "cursor-not-allowed opacity-60"
                   )}
                 >
                   {isSelected ? "Currently Active" : "Apply Persona"}

@@ -28,54 +28,42 @@ const TIER_ORDER: Record<ComplexityTier, number> = {
   deep: 3,
 };
 
-export const AdaptiveSlot: React.FC<AdaptiveSlotProps> = observer(({
-  children,
-  field,
-  minTier,
-  feature,
-  navKey,
-  fallback = null,
-  projectId: propProjectId,
-  className,
-}) => {
-  const { workspaceSlug: _workspaceSlug, projectId: routeProjectId } = useParams();
-  const effectiveProjectId = propProjectId || (typeof routeProjectId === "string" ? routeProjectId : undefined);
+export const AdaptiveSlot: React.FC<AdaptiveSlotProps> = observer(
+  ({ children, field, minTier, feature, navKey, fallback = null, projectId: propProjectId, className }) => {
+    const { workspaceSlug: _workspaceSlug, projectId: routeProjectId } = useParams();
+    const effectiveProjectId = propProjectId || (typeof routeProjectId === "string" ? routeProjectId : undefined);
 
-  const { getProjectById } = useProject();
-  const project = effectiveProjectId ? getProjectById(effectiveProjectId) : undefined;
+    const { getProjectById } = useProject();
+    const project = effectiveProjectId ? getProjectById(effectiveProjectId) : undefined;
 
-  const {
-    isFieldVisible,
-    isNavigationVisible,
-    isFeatureAllowed,
-    getEffectiveTier,
-  } = useAdaptivePersona();
+    const { isFieldVisible, isNavigationVisible, isFeatureAllowed, getEffectiveTier } = useAdaptivePersona();
 
-  const currentTier = getEffectiveTier(project);
+    const currentTier = getEffectiveTier(project);
 
-  // 1. MinTier check
-  if (minTier && TIER_ORDER[currentTier] < TIER_ORDER[minTier]) {
-    return <>{fallback}</>;
+    // 1. MinTier check
+    if (minTier && TIER_ORDER[currentTier] < TIER_ORDER[minTier]) {
+      return <>{fallback}</>;
+    }
+
+    // 2. Feature check
+    if (feature && !isFeatureAllowed(feature, project)) {
+      return <>{fallback}</>;
+    }
+
+    // 3. Navigation key check
+    if (navKey && !isNavigationVisible(navKey, project)) {
+      return <>{fallback}</>;
+    }
+
+    // 4. Field check (with mandatory field safeguard)
+    if (field && !isFieldVisible(field, project)) {
+      return <>{fallback}</>;
+    }
+
+    if (className) {
+      return <div className={className}>{children}</div>;
+    }
+
+    return <>{children}</>;
   }
-
-  // 2. Feature check
-  if (feature && !isFeatureAllowed(feature, project)) {
-    return <>{fallback}</>;
-  }
-
-  // 3. Navigation key check
-  if (navKey && !isNavigationVisible(navKey, project)) {
-    return <>{fallback}</>;
-  }
-
-  // 4. Field check (with mandatory field safeguard)
-  if (field && !isFieldVisible(field, project)) {
-    return <>{fallback}</>;
-  }
-
-  if (className) {
-    return <div className={className}>{children}</div>;
-  }
-
-  return <>{children}</>;
-});
+);

@@ -52,28 +52,22 @@ export const GoalsRoot: React.FC<Props> = observer(({ workspaceSlug, projectId }
   const objectives = getProjectObjectives(projectId);
   const ideas = getProjectIdeas(projectId);
 
-  const filteredObjectives = objectives.filter((obj) =>
-    obj.title.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const filteredObjectives = objectives.filter((obj) => obj.title.toLowerCase().includes(searchQuery.toLowerCase()));
 
-  const filteredIdeas = ideas.filter((idea) =>
-    idea.title.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const filteredIdeas = ideas.filter((idea) => idea.title.toLowerCase().includes(searchQuery.toLowerCase()));
 
   return (
-    <div className="flex-1 overflow-y-auto bg-custom-background-90 p-6 md:p-8">
+    <div className="bg-custom-background-90 flex-1 overflow-y-auto p-6 md:p-8">
       {/* Header */}
-      <div className="max-w-7xl mx-auto space-y-6">
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="mx-auto max-w-7xl space-y-6">
+        <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center">
           <div>
-            <div className="flex items-center gap-2 mb-1">
-              <span className="text-xs font-semibold uppercase tracking-wider text-custom-primary-100">
+            <div className="mb-1 flex items-center gap-2">
+              <span className="text-xs tracking-wider text-custom-primary-100 font-semibold uppercase">
                 Strategic Management
               </span>
             </div>
-            <h1 className="text-2xl font-bold text-custom-text-100 tracking-tight">
-              Goals, OKRs & Idea Sandbox
-            </h1>
+            <h1 className="text-2xl text-custom-text-100 font-bold tracking-tight">Goals, OKRs & Idea Sandbox</h1>
             <p className="text-xs text-custom-text-300 mt-1">
               Connect strategic objectives directly to delivery cycles, modules, and work items.
             </p>
@@ -84,7 +78,7 @@ export const GoalsRoot: React.FC<Props> = observer(({ workspaceSlug, projectId }
               <button
                 type="button"
                 onClick={() => setIsObjectiveModalOpen(true)}
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold bg-custom-primary-100 text-white shadow-sm hover:opacity-90 transition-all cursor-pointer"
+                className="text-xs bg-custom-primary-100 shadow-sm inline-flex cursor-pointer items-center gap-2 rounded-xl px-4 py-2 font-semibold text-white transition-all hover:opacity-90"
               >
                 <Plus size={15} />
                 <span>New Objective</span>
@@ -93,7 +87,7 @@ export const GoalsRoot: React.FC<Props> = observer(({ workspaceSlug, projectId }
               <button
                 type="button"
                 onClick={() => setIsIdeaModalOpen(true)}
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold bg-amber-500 text-white shadow-sm hover:opacity-90 transition-all cursor-pointer"
+                className="text-xs bg-amber-500 shadow-sm inline-flex cursor-pointer items-center gap-2 rounded-xl px-4 py-2 font-semibold text-white transition-all hover:opacity-90"
               >
                 <Plus size={15} />
                 <span>Submit Idea</span>
@@ -103,15 +97,15 @@ export const GoalsRoot: React.FC<Props> = observer(({ workspaceSlug, projectId }
         </div>
 
         {/* Tab & Filter Bar */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-2 border-b border-custom-border-200">
+        <div className="border-custom-border-200 flex flex-col justify-between gap-4 border-b pb-2 sm:flex-row sm:items-center">
           {/* Tabs */}
-          <div className="flex items-center gap-2 p-1 rounded-xl bg-custom-background-100 border border-custom-border-200 w-fit">
+          <div className="bg-custom-background-100 border-custom-border-200 flex w-fit items-center gap-2 rounded-xl border p-1">
             <button
               type="button"
               onClick={() => setActiveTab("okrs")}
-              className={`inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer ${
+              className={`text-xs inline-flex cursor-pointer items-center gap-2 rounded-lg px-3.5 py-1.5 font-medium transition-all ${
                 activeTab === "okrs"
-                  ? "bg-custom-primary-100 text-white shadow-xs"
+                  ? "bg-custom-primary-100 shadow-xs text-white"
                   : "text-custom-text-300 hover:text-custom-text-100"
               }`}
             >
@@ -122,9 +116,9 @@ export const GoalsRoot: React.FC<Props> = observer(({ workspaceSlug, projectId }
             <button
               type="button"
               onClick={() => setActiveTab("ideas")}
-              className={`inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer ${
+              className={`text-xs inline-flex cursor-pointer items-center gap-2 rounded-lg px-3.5 py-1.5 font-medium transition-all ${
                 activeTab === "ideas"
-                  ? "bg-amber-500 text-white shadow-xs"
+                  ? "bg-amber-500 shadow-xs text-white"
                   : "text-custom-text-300 hover:text-custom-text-100"
               }`}
             >
@@ -135,13 +129,13 @@ export const GoalsRoot: React.FC<Props> = observer(({ workspaceSlug, projectId }
 
           {/* Search Box */}
           <div className="relative sm:w-64">
-            <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-custom-text-400" />
+            <Search size={14} className="text-custom-text-400 absolute top-1/2 left-3 -translate-y-1/2" />
             <input
               type="text"
               placeholder={`Search ${activeTab === "okrs" ? "objectives..." : "ideas..."}`}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-9 pr-3 py-1.5 rounded-lg border border-custom-border-200 bg-custom-background-100 text-xs text-custom-text-100 placeholder:text-custom-text-400 focus:outline-none focus:border-custom-primary-100 transition-colors"
+              className="border-custom-border-200 bg-custom-background-100 text-xs text-custom-text-100 placeholder:text-custom-text-400 focus:border-custom-primary-100 w-full rounded-lg border py-1.5 pr-3 pl-9 transition-colors focus:outline-none"
             />
           </div>
         </div>
@@ -150,18 +144,19 @@ export const GoalsRoot: React.FC<Props> = observer(({ workspaceSlug, projectId }
         {activeTab === "okrs" ? (
           <div className="space-y-4">
             {filteredObjectives.length === 0 ? (
-              <div className="rounded-2xl border border-dashed border-custom-border-200 bg-custom-background-100/50 p-12 text-center">
-                <div className="w-12 h-12 rounded-2xl bg-custom-primary-100/10 text-custom-primary-100 flex items-center justify-center mx-auto mb-4">
+              <div className="border-custom-border-200 bg-custom-background-100/50 rounded-2xl border border-dashed p-12 text-center">
+                <div className="bg-custom-primary-100/10 text-custom-primary-100 mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-2xl">
                   <Target size={24} />
                 </div>
-                <h3 className="text-base font-semibold text-custom-text-100">No Objectives Found</h3>
-                <p className="text-xs text-custom-text-300 max-w-sm mx-auto mt-1 mb-6">
-                  Define strategic Objectives and measurable Key Results linked to your Cycles and Modules for automated progress rollups.
+                <h3 className="text-base text-custom-text-100 font-semibold">No Objectives Found</h3>
+                <p className="text-xs text-custom-text-300 mx-auto mt-1 mb-6 max-w-sm">
+                  Define strategic Objectives and measurable Key Results linked to your Cycles and Modules for automated
+                  progress rollups.
                 </p>
                 <button
                   type="button"
                   onClick={() => setIsObjectiveModalOpen(true)}
-                  className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold bg-custom-primary-100 text-white hover:opacity-90 transition-all cursor-pointer"
+                  className="text-xs bg-custom-primary-100 inline-flex cursor-pointer items-center gap-2 rounded-xl px-4 py-2 font-semibold text-white transition-all hover:opacity-90"
                 >
                   <Plus size={14} />
                   <span>Create First Objective</span>

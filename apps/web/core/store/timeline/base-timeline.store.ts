@@ -497,4 +497,3 @@ export class BaseTimeLineStore implements IBaseTimelineStore {
   // Dummy method to return if the current Block's dependency is being dragged
   getIsCurrentDependencyDragging = computedFn((_blockId: string) => false);
 }
-

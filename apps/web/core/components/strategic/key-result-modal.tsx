@@ -54,27 +54,27 @@ export const KeyResultModal: React.FC<Props> = ({ isOpen, objectiveId, onClose, 
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in">
-      <div className="w-full max-w-lg rounded-2xl border border-custom-border-200 bg-custom-background-100 shadow-2xl overflow-hidden animate-scale-up">
-        <div className="flex items-center justify-between p-5 border-b border-custom-border-100">
+    <div className="fixed inset-0 z-50 flex animate-fade-in items-center justify-center bg-black/60 p-4 backdrop-blur-sm">
+      <div className="border-custom-border-200 bg-custom-background-100 shadow-2xl animate-scale-up w-full max-w-lg overflow-hidden rounded-2xl border">
+        <div className="border-custom-border-100 flex items-center justify-between border-b p-5">
           <div className="flex items-center gap-2.5">
-            <div className="p-2 rounded-lg bg-custom-primary-100/10 text-custom-primary-100">
+            <div className="bg-custom-primary-100/10 text-custom-primary-100 rounded-lg p-2">
               <CheckSquare size={18} />
             </div>
-            <h2 className="text-base font-semibold text-custom-text-100">Add Measurable Key Result</h2>
+            <h2 className="text-base text-custom-text-100 font-semibold">Add Measurable Key Result</h2>
           </div>
           <button
             type="button"
             onClick={onClose}
-            className="p-1 rounded-lg text-custom-text-400 hover:text-custom-text-100 hover:bg-custom-background-80 transition-colors"
+            className="text-custom-text-400 hover:text-custom-text-100 hover:bg-custom-background-80 rounded-lg p-1 transition-colors"
           >
             <X size={18} />
           </button>
         </div>
 
-        <form onSubmit={handleSubmit} className="p-5 space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-4 p-5">
           <div>
-            <label htmlFor="krTitle" className="block text-xs font-medium text-custom-text-200 mb-1.5">
+            <label htmlFor="krTitle" className="text-xs text-custom-text-200 mb-1.5 block font-medium">
               Key Result Title <span className="text-rose-500">*</span>
             </label>
             <input
@@ -84,13 +84,13 @@ export const KeyResultModal: React.FC<Props> = ({ isOpen, objectiveId, onClose, 
               placeholder="e.g., Deliver MVP architecture milestone"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              className="w-full px-3.5 py-2 rounded-lg border border-custom-border-200 bg-custom-background-90 text-sm text-custom-text-100 placeholder:text-custom-text-400 focus:outline-none focus:border-custom-primary-100 transition-colors"
+              className="border-custom-border-200 bg-custom-background-90 text-sm text-custom-text-100 placeholder:text-custom-text-400 focus:border-custom-primary-100 w-full rounded-lg border px-3.5 py-2 transition-colors focus:outline-none"
             />
           </div>
 
           <div className="grid grid-cols-3 gap-3">
             <div>
-              <label htmlFor="krInitial" className="block text-xs font-medium text-custom-text-200 mb-1.5">
+              <label htmlFor="krInitial" className="text-xs text-custom-text-200 mb-1.5 block font-medium">
                 Initial
               </label>
               <input
@@ -99,11 +99,11 @@ export const KeyResultModal: React.FC<Props> = ({ isOpen, objectiveId, onClose, 
                 step="any"
                 value={initialValue}
                 onChange={(e) => setInitialValue(Number(e.target.value))}
-                className="w-full px-3 py-2 rounded-lg border border-custom-border-200 bg-custom-background-90 text-xs text-custom-text-100 focus:outline-none focus:border-custom-primary-100 transition-colors"
+                className="border-custom-border-200 bg-custom-background-90 text-xs text-custom-text-100 focus:border-custom-primary-100 w-full rounded-lg border px-3 py-2 transition-colors focus:outline-none"
               />
             </div>
             <div>
-              <label htmlFor="krCurrent" className="block text-xs font-medium text-custom-text-200 mb-1.5">
+              <label htmlFor="krCurrent" className="text-xs text-custom-text-200 mb-1.5 block font-medium">
                 Current
               </label>
               <input
@@ -112,11 +112,11 @@ export const KeyResultModal: React.FC<Props> = ({ isOpen, objectiveId, onClose, 
                 step="any"
                 value={currentValue}
                 onChange={(e) => setCurrentValue(Number(e.target.value))}
-                className="w-full px-3 py-2 rounded-lg border border-custom-border-200 bg-custom-background-90 text-xs text-custom-text-100 focus:outline-none focus:border-custom-primary-100 transition-colors"
+                className="border-custom-border-200 bg-custom-background-90 text-xs text-custom-text-100 focus:border-custom-primary-100 w-full rounded-lg border px-3 py-2 transition-colors focus:outline-none"
               />
             </div>
             <div>
-              <label htmlFor="krTarget" className="block text-xs font-medium text-custom-text-200 mb-1.5">
+              <label htmlFor="krTarget" className="text-xs text-custom-text-200 mb-1.5 block font-medium">
                 Target
               </label>
               <input
@@ -125,13 +125,13 @@ export const KeyResultModal: React.FC<Props> = ({ isOpen, objectiveId, onClose, 
                 step="any"
                 value={targetValue}
                 onChange={(e) => setTargetValue(Number(e.target.value))}
-                className="w-full px-3 py-2 rounded-lg border border-custom-border-200 bg-custom-background-90 text-xs text-custom-text-100 focus:outline-none focus:border-custom-primary-100 transition-colors"
+                className="border-custom-border-200 bg-custom-background-90 text-xs text-custom-text-100 focus:border-custom-primary-100 w-full rounded-lg border px-3 py-2 transition-colors focus:outline-none"
               />
             </div>
           </div>
 
           <div>
-            <label htmlFor="krUnit" className="block text-xs font-medium text-custom-text-200 mb-1.5">
+            <label htmlFor="krUnit" className="text-xs text-custom-text-200 mb-1.5 block font-medium">
               Measurement Unit
             </label>
             <input
@@ -140,20 +140,20 @@ export const KeyResultModal: React.FC<Props> = ({ isOpen, objectiveId, onClose, 
               placeholder="e.g., %, USD, users, tasks"
               value={unit}
               onChange={(e) => setUnit(e.target.value)}
-              className="w-full px-3 py-2 rounded-lg border border-custom-border-200 bg-custom-background-90 text-xs text-custom-text-100 focus:outline-none focus:border-custom-primary-100 transition-colors"
+              className="border-custom-border-200 bg-custom-background-90 text-xs text-custom-text-100 focus:border-custom-primary-100 w-full rounded-lg border px-3 py-2 transition-colors focus:outline-none"
             />
           </div>
 
-          <div className="p-3 rounded-lg border border-custom-border-200 bg-custom-background-90 flex items-start gap-3">
+          <div className="border-custom-border-200 bg-custom-background-90 flex items-start gap-3 rounded-lg border p-3">
             <input
               type="checkbox"
               id="autoCompute"
               checked={autoCompute}
               onChange={(e) => setAutoCompute(e.target.checked)}
-              className="mt-1 h-4 w-4 rounded border-custom-border-300 text-custom-primary-100 focus:ring-custom-primary-100"
+              className="border-custom-border-300 text-custom-primary-100 focus:ring-custom-primary-100 mt-1 h-4 w-4 rounded"
             />
             <label htmlFor="autoCompute" className="text-xs cursor-pointer select-none">
-              <span className="font-semibold text-custom-text-100 flex items-center gap-1.5">
+              <span className="text-custom-text-100 flex items-center gap-1.5 font-semibold">
                 <RefreshCw size={13} className="text-sky-400" />
                 Automated Progress Rollup
               </span>
@@ -163,18 +163,18 @@ export const KeyResultModal: React.FC<Props> = ({ isOpen, objectiveId, onClose, 
             </label>
           </div>
 
-          <div className="flex items-center justify-end gap-3 pt-3 border-t border-custom-border-100">
+          <div className="border-custom-border-100 flex items-center justify-end gap-3 border-t pt-3">
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 rounded-lg text-xs font-medium text-custom-text-300 hover:text-custom-text-100 hover:bg-custom-background-80 transition-colors"
+              className="text-xs text-custom-text-300 hover:text-custom-text-100 hover:bg-custom-background-80 rounded-lg px-4 py-2 font-medium transition-colors"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={submitting || !title.trim()}
-              className="px-4 py-2 rounded-lg text-xs font-semibold bg-custom-primary-100 text-white hover:opacity-90 disabled:opacity-50 transition-opacity"
+              className="text-xs bg-custom-primary-100 rounded-lg px-4 py-2 font-semibold text-white transition-opacity hover:opacity-90 disabled:opacity-50"
             >
               {submitting ? "Adding..." : "Add Key Result"}
             </button>

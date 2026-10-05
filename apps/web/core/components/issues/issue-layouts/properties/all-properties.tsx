@@ -86,9 +86,7 @@ export const IssueProperties = observer(function IssueProperties(props: IIssuePr
   const totalSubIssues = issue?.total_sub_issues_count ?? subIssueCount;
   const completedSubIssues = issue?.completed_sub_issues_count ?? 0;
   const hasNestedSubIssues = Boolean(issue?.total_sub_issues_count && issue.total_sub_issues_count > subIssueCount);
-  const subIssuesLabel = hasNestedSubIssues
-    ? `${completedSubIssues}/${totalSubIssues}`
-    : `${subIssueCount}`;
+  const subIssuesLabel = hasNestedSubIssues ? `${completedSubIssues}/${totalSubIssues}` : `${subIssueCount}`;
   const subIssuesTooltip = hasNestedSubIssues
     ? `${completedSubIssues}/${totalSubIssues} sub-items (${Math.round((completedSubIssues / (totalSubIssues || 1)) * 100)}%)`
     : `${subIssueCount}`;

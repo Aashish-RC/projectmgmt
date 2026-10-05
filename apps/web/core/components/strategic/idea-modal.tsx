@@ -56,27 +56,27 @@ export const IdeaModal: React.FC<Props> = ({ isOpen, onClose, onSubmit }) => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in">
-      <div className="w-full max-w-lg rounded-2xl border border-custom-border-200 bg-custom-background-100 shadow-2xl overflow-hidden animate-scale-up">
-        <div className="flex items-center justify-between p-5 border-b border-custom-border-100">
+    <div className="fixed inset-0 z-50 flex animate-fade-in items-center justify-center bg-black/60 p-4 backdrop-blur-sm">
+      <div className="border-custom-border-200 bg-custom-background-100 shadow-2xl animate-scale-up w-full max-w-lg overflow-hidden rounded-2xl border">
+        <div className="border-custom-border-100 flex items-center justify-between border-b p-5">
           <div className="flex items-center gap-2.5">
-            <div className="p-2 rounded-lg bg-amber-500/10 text-amber-500">
+            <div className="bg-amber-500/10 text-amber-500 rounded-lg p-2">
               <Lightbulb size={18} />
             </div>
-            <h2 className="text-base font-semibold text-custom-text-100">Submit Idea / Hypothesis</h2>
+            <h2 className="text-base text-custom-text-100 font-semibold">Submit Idea / Hypothesis</h2>
           </div>
           <button
             type="button"
             onClick={onClose}
-            className="p-1 rounded-lg text-custom-text-400 hover:text-custom-text-100 hover:bg-custom-background-80 transition-colors"
+            className="text-custom-text-400 hover:text-custom-text-100 hover:bg-custom-background-80 rounded-lg p-1 transition-colors"
           >
             <X size={18} />
           </button>
         </div>
 
-        <form onSubmit={handleSubmit} className="p-5 space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-4 p-5">
           <div>
-            <label htmlFor="ideaTitle" className="block text-xs font-medium text-custom-text-200 mb-1.5">
+            <label htmlFor="ideaTitle" className="text-xs text-custom-text-200 mb-1.5 block font-medium">
               Idea Title <span className="text-rose-500">*</span>
             </label>
             <input
@@ -86,12 +86,12 @@ export const IdeaModal: React.FC<Props> = ({ isOpen, onClose, onSubmit }) => {
               placeholder="e.g., Integrate AI-assisted issue triage"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              className="w-full px-3.5 py-2 rounded-lg border border-custom-border-200 bg-custom-background-90 text-sm text-custom-text-100 placeholder:text-custom-text-400 focus:outline-none focus:border-custom-primary-100 transition-colors"
+              className="border-custom-border-200 bg-custom-background-90 text-sm text-custom-text-100 placeholder:text-custom-text-400 focus:border-custom-primary-100 w-full rounded-lg border px-3.5 py-2 transition-colors focus:outline-none"
             />
           </div>
 
           <div>
-            <label htmlFor="ideaDescription" className="block text-xs font-medium text-custom-text-200 mb-1.5">
+            <label htmlFor="ideaDescription" className="text-xs text-custom-text-200 mb-1.5 block font-medium">
               Hypothesis & Expected Outcome
             </label>
             <textarea
@@ -100,14 +100,14 @@ export const IdeaModal: React.FC<Props> = ({ isOpen, onClose, onSubmit }) => {
               placeholder="If we build X, then user engagement will increase by Y because..."
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              className="w-full px-3.5 py-2 rounded-lg border border-custom-border-200 bg-custom-background-90 text-sm text-custom-text-100 placeholder:text-custom-text-400 focus:outline-none focus:border-custom-primary-100 transition-colors resize-none"
+              className="border-custom-border-200 bg-custom-background-90 text-sm text-custom-text-100 placeholder:text-custom-text-400 focus:border-custom-primary-100 w-full resize-none rounded-lg border px-3.5 py-2 transition-colors focus:outline-none"
             />
           </div>
 
-          <div className="grid grid-cols-2 gap-4 p-4 rounded-xl border border-custom-border-100 bg-custom-background-90">
+          <div className="border-custom-border-100 bg-custom-background-90 grid grid-cols-2 gap-4 rounded-xl border p-4">
             <div>
-              <div className="flex items-center justify-between mb-2">
-                <span className="text-xs font-medium text-custom-text-200 flex items-center gap-1">
+              <div className="mb-2 flex items-center justify-between">
+                <span className="text-xs text-custom-text-200 flex items-center gap-1 font-medium">
                   <TrendingUp size={13} className="text-emerald-500" />
                   Impact: <strong className="text-custom-text-100">{impact} / 5</strong>
                 </span>
@@ -119,17 +119,17 @@ export const IdeaModal: React.FC<Props> = ({ isOpen, onClose, onSubmit }) => {
                 step={1}
                 value={impact}
                 onChange={(e) => setImpact(Number(e.target.value))}
-                className="w-full h-1.5 bg-custom-background-80 rounded-lg appearance-none cursor-pointer accent-custom-primary-100"
+                className="bg-custom-background-80 accent-custom-primary-100 h-1.5 w-full cursor-pointer appearance-none rounded-lg"
               />
-              <div className="flex justify-between text-[10px] text-custom-text-400 mt-1">
+              <div className="text-custom-text-400 mt-1 flex justify-between text-[10px]">
                 <span>Low (1)</span>
                 <span>High (5)</span>
               </div>
             </div>
 
             <div>
-              <div className="flex items-center justify-between mb-2">
-                <span className="text-xs font-medium text-custom-text-200 flex items-center gap-1">
+              <div className="mb-2 flex items-center justify-between">
+                <span className="text-xs text-custom-text-200 flex items-center gap-1 font-medium">
                   <Zap size={13} className="text-amber-500" />
                   Effort: <strong className="text-custom-text-100">{effort} / 5</strong>
                 </span>
@@ -141,9 +141,9 @@ export const IdeaModal: React.FC<Props> = ({ isOpen, onClose, onSubmit }) => {
                 step={1}
                 value={effort}
                 onChange={(e) => setEffort(Number(e.target.value))}
-                className="w-full h-1.5 bg-custom-background-80 rounded-lg appearance-none cursor-pointer accent-custom-primary-100"
+                className="bg-custom-background-80 accent-custom-primary-100 h-1.5 w-full cursor-pointer appearance-none rounded-lg"
               />
-              <div className="flex justify-between text-[10px] text-custom-text-400 mt-1">
+              <div className="text-custom-text-400 mt-1 flex justify-between text-[10px]">
                 <span>Low (1)</span>
                 <span>High (5)</span>
               </div>
@@ -151,23 +151,23 @@ export const IdeaModal: React.FC<Props> = ({ isOpen, onClose, onSubmit }) => {
           </div>
 
           {/* Matrix placement preview */}
-          <div className="p-3 rounded-lg border border-custom-border-200 bg-custom-background-80/50 text-xs">
+          <div className="border-custom-border-200 bg-custom-background-80/50 text-xs rounded-lg border p-3">
             <span className="text-custom-text-300">Target Matrix Placement: </span>
-            <span className="font-semibold text-custom-primary-100">{getQuadrant(impact, effort)}</span>
+            <span className="text-custom-primary-100 font-semibold">{getQuadrant(impact, effort)}</span>
           </div>
 
-          <div className="flex items-center justify-end gap-3 pt-3 border-t border-custom-border-100">
+          <div className="border-custom-border-100 flex items-center justify-end gap-3 border-t pt-3">
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 rounded-lg text-xs font-medium text-custom-text-300 hover:text-custom-text-100 hover:bg-custom-background-80 transition-colors"
+              className="text-xs text-custom-text-300 hover:text-custom-text-100 hover:bg-custom-background-80 rounded-lg px-4 py-2 font-medium transition-colors"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={submitting || !title.trim()}
-              className="px-4 py-2 rounded-lg text-xs font-semibold bg-custom-primary-100 text-white hover:opacity-90 disabled:opacity-50 transition-opacity"
+              className="text-xs bg-custom-primary-100 rounded-lg px-4 py-2 font-semibold text-white transition-opacity hover:opacity-90 disabled:opacity-50"
             >
               {submitting ? "Submitting..." : "Save Idea"}
             </button>

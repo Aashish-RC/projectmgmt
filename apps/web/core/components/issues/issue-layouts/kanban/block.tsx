@@ -147,7 +147,7 @@ const KanbanIssueDetailsBlock = observer(function KanbanIssueDetailsBlock(props:
         <div className="relative flex items-center justify-between">
           <div className="flex items-center gap-2">
             <span
-              className="inline-block h-1.5 w-8 rounded-full transition-colors shrink-0"
+              className="inline-block h-1.5 w-8 shrink-0 rounded-full transition-colors"
               style={{ backgroundColor: stickerColor }}
               title={state?.name || issue.priority || "Accent"}
             />
@@ -166,7 +166,7 @@ const KanbanIssueDetailsBlock = observer(function KanbanIssueDetailsBlock(props:
           {/* oxlint-disable-next-line jsx_a11y/click-events-have-key-events oxlint-disable-next-line jsx_a11y/no-static-element-interactions */}
           <div
             className={cn("flex items-center gap-0.5", {
-              "opacity-0 group-hover/kanban-block:opacity-100 transition-opacity":
+              "opacity-0 transition-opacity group-hover/kanban-block:opacity-100":
                 !isMobile && !isTimingThisIssue && !isMenuActive,
               "!opacity-100": isMenuActive || isTimingThisIssue || isMobile,
             })}
@@ -175,7 +175,7 @@ const KanbanIssueDetailsBlock = observer(function KanbanIssueDetailsBlock(props:
             <button
               type="button"
               className={cn(
-                "flex items-center justify-center p-1 rounded hover:bg-layer-1 transition-colors",
+                "flex items-center justify-center rounded p-1 transition-colors hover:bg-layer-1",
                 isTimingThisIssue
                   ? isRunning
                     ? "text-green-500 hover:text-green-600 bg-green-500/10"
@@ -201,7 +201,7 @@ const KanbanIssueDetailsBlock = observer(function KanbanIssueDetailsBlock(props:
 
         {/* Clean, prominent title */}
         <Tooltip tooltipContent={issue.name} isMobile={isMobile} renderByDefault={false}>
-          <div className="line-clamp-2 w-full text-13 font-medium text-primary leading-snug">
+          <div className="line-clamp-2 w-full text-13 leading-snug font-medium text-primary">
             <span>{issue.name}</span>
           </div>
         </Tooltip>
@@ -209,12 +209,9 @@ const KanbanIssueDetailsBlock = observer(function KanbanIssueDetailsBlock(props:
         {/* Bottom row: tactile status & single assignee avatar (reveals full properties on hover) */}
         <div className="pt-0.5">
           <div className="flex items-center justify-between group-hover/kanban-block:hidden">
-            <div className="flex items-center gap-1.5 text-xs text-tertiary">
-              <span
-                className="inline-block h-2 w-2 rounded-full shrink-0"
-                style={{ backgroundColor: stickerColor }}
-              />
-              <span className="text-[11px] font-medium text-secondary truncate max-w-[140px]">
+            <div className="text-xs flex items-center gap-1.5 text-tertiary">
+              <span className="inline-block h-2 w-2 shrink-0 rounded-full" style={{ backgroundColor: stickerColor }} />
+              <span className="max-w-[140px] truncate text-[11px] font-medium text-secondary">
                 {state?.name || issue.priority || "Task"}
               </span>
             </div>
@@ -273,7 +270,7 @@ const KanbanIssueDetailsBlock = observer(function KanbanIssueDetailsBlock(props:
           <button
             type="button"
             className={cn(
-              "flex items-center justify-center p-1 rounded hover:bg-layer-1 transition-colors",
+              "flex items-center justify-center rounded p-1 transition-colors hover:bg-layer-1",
               isTimingThisIssue
                 ? isRunning
                   ? "text-green-500 hover:text-green-600 bg-green-500/10"
@@ -421,7 +418,7 @@ export const KanbanIssueBlock = observer(function KanbanIssueBlock(props: IssueB
         id={`issue-${issueId}`}
         // make Z-index higher at the beginning of drag, to have a issue drag image of issue block without any overlaps
         className={cn(
-          "group/kanban-block relative mb-2 transition-transform duration-150 will-change-transform [transform:translate3d(0,0,0)]",
+          "group/kanban-block relative mb-2 [transform:translate3d(0,0,0)] transition-transform duration-150 will-change-transform",
           { "z-[1]": isCurrentBlockDragging }
         )}
         onDragStart={() => {
@@ -442,12 +439,12 @@ export const KanbanIssueBlock = observer(function KanbanIssueBlock(props: IssueB
           href={workItemLink}
           ref={cardRef}
           className={cn(
-            "block w-full rounded-lg border border-subtle bg-layer-2 p-3 text-13 shadow-raised-100 outline-[0.5px] outline-transparent transition-all duration-150 will-change-transform [transform:translate3d(0,0,0)] hover:border-strong hover:shadow-raised-200",
+            "block w-full [transform:translate3d(0,0,0)] rounded-lg border border-subtle bg-layer-2 p-3 text-13 shadow-raised-100 outline-[0.5px] outline-transparent transition-all duration-150 will-change-transform hover:border-strong hover:shadow-raised-200",
             { "hover:cursor-pointer": isDragAllowed },
             { "border border-accent-strong hover:border-accent-strong": getIsIssuePeeked(issue.id) },
-            { "z-[100] bg-layer-1 opacity-60 scale-[0.98] shadow-none": isCurrentBlockDragging },
+            { "z-[100] scale-[0.98] bg-layer-1 opacity-60 shadow-none": isCurrentBlockDragging },
             {
-              "ring-2 ring-primary-500/30 shadow-lg scale-[1.01] transition-transform":
+              "ring-primary-500/30 shadow-lg scale-[1.01] ring-2 transition-transform":
                 isDraggingOverBlock && !isCurrentBlockDragging,
             }
           )}

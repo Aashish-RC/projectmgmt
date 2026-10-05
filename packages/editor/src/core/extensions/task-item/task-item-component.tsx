@@ -94,25 +94,26 @@ export const TaskItemComponent: React.FC<NodeViewProps> = (props) => {
       data-type="taskItem"
       data-checked={isChecked}
       className={cn(
-        "group/task-item relative flex items-start gap-2 my-1.5 transition-colors",
+        "group/task-item relative my-1.5 flex items-start gap-2 transition-colors",
         isChecked ? "text-tertiary" : "text-primary"
       )}
     >
-      <label className="flex items-center select-none pt-0.5 cursor-pointer">
+      <label aria-label="Task item checkbox" className="flex cursor-pointer items-center pt-0.5 select-none">
         <input
+          aria-label="Task item checkbox"
           type="checkbox"
           checked={isChecked}
           onChange={handleToggle}
           disabled={!editor.isEditable}
-          className="cursor-pointer h-4 w-4 rounded border-subtle text-primary focus:ring-0"
+          className="h-4 w-4 cursor-pointer rounded border-subtle text-primary focus:ring-0"
         />
       </label>
-      <div className="flex-1 min-w-0">
+      <div className="min-w-0 flex-1">
         <NodeViewContent
           as="div"
           className={cn(
             "task-item-content text-body-sm-regular break-words",
-            isChecked && "line-through text-tertiary"
+            isChecked && "text-tertiary line-through"
           )}
         />
       </div>
@@ -123,8 +124,8 @@ export const TaskItemComponent: React.FC<NodeViewProps> = (props) => {
           disabled={isElevating}
           title="Elevate to Work Item"
           className={cn(
-            "opacity-0 group-hover/task-item:opacity-100 focus:opacity-100 transition-opacity p-0.5 rounded text-placeholder hover:text-primary hover:bg-layer-2 flex-shrink-0 cursor-pointer inline-flex items-center justify-center",
-            isElevating && "opacity-100 animate-pulse text-accent-primary"
+            "inline-flex flex-shrink-0 cursor-pointer items-center justify-center rounded p-0.5 text-placeholder opacity-0 transition-opacity group-hover/task-item:opacity-100 hover:bg-layer-2 hover:text-primary focus:opacity-100",
+            isElevating && "animate-pulse text-accent-primary opacity-100"
           )}
         >
           <ArrowUpRight className="h-3.5 w-3.5" />

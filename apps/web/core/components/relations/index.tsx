@@ -75,5 +75,4 @@ export const ISSUE_RELATION_OPTIONS: Record<TIssueRelationTypes, TRelationObject
   },
 };
 
-
 export const useTimeLineRelationOptions = () => ISSUE_RELATION_OPTIONS;

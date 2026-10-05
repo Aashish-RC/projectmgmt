@@ -29,9 +29,9 @@ export const ExtendedAppHeader = observer(function ExtendedAppHeader(props: { he
   return (
     <>
       {sidebarCollapsed && shouldShowSidebarToggleButton && <AppSidebarToggleButton />}
-      <div className="w-full flex items-center justify-between">
-        <div className="flex-1 min-w-0">{header}</div>
-        <div className="flex-shrink-0 px-3 flex items-center gap-2">
+      <div className="flex w-full items-center justify-between">
+        <div className="min-w-0 flex-1">{header}</div>
+        <div className="flex flex-shrink-0 items-center gap-2 px-3">
           <ComplexityDial />
           <TopNavTimerWidget />
         </div>

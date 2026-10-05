@@ -22,10 +22,7 @@ export interface IHabitDetectorStore {
   recordKeyboardShortcut: () => void;
   recordShortcutAction: (shortcutName?: string) => void;
   recordAdvancedFeatureUsage: (featureName?: string) => void;
-  checkAdaptationHeuristic: (
-    currentTier: ComplexityTier,
-    onSuggestMinimal: () => void
-  ) => boolean;
+  checkAdaptationHeuristic: (currentTier: ComplexityTier, onSuggestMinimal: () => void) => boolean;
   dismissPrompt: () => void;
   resetTelemetry: () => void;
 }
@@ -96,10 +93,7 @@ export class HabitDetectorStore implements IHabitDetectorStore {
    * triggers the callback to prompt them about switching to Minimal (Speed Flow).
    * Returns true if prompt was triggered.
    */
-  checkAdaptationHeuristic = (
-    currentTier: ComplexityTier,
-    onSuggestMinimal: () => void
-  ): boolean => {
+  checkAdaptationHeuristic = (currentTier: ComplexityTier, onSuggestMinimal: () => void): boolean => {
     if (this.hasPromptedForMinimal) return false;
     if (currentTier !== "standard") return false;
 

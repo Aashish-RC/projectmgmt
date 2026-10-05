@@ -76,11 +76,9 @@ export const GanttChartBlock = observer(function GanttChartBlock(props: Props) {
       className={cn("relative z-[5] transition-all duration-200", {
         "transition-all": !!isMoving && currentView === "week",
         "pointer-events-none": !isBlockVisibleOnChart,
-        "ring-2 ring-red-500 rounded-sm shadow-[0_0_10px_rgba(239,68,68,0.5)] z-[10]":
-          showCriticalPath && isCritical,
+        "ring-red-500 z-[10] rounded-sm shadow-[0_0_10px_rgba(239,68,68,0.5)] ring-2": showCriticalPath && isCritical,
         "opacity-35 hover:opacity-90": showCriticalPath && !isCritical,
       })}
-
       id={`gantt-block-${block.id}`}
       ref={resizableRef}
       style={{

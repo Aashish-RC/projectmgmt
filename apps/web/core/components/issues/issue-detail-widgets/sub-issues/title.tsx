@@ -42,11 +42,11 @@ export const SubIssuesCollapsibleTitle = observer(function SubIssuesCollapsibleT
   // calculate percentage of completed sub-issues (with cumulative rollup support for nested trees)
   const directTotal = subIssues.length;
   const directCompleted = subIssuesDistribution?.completed?.length ?? 0;
-  const hasNestedSubIssues = Boolean(parentIssue?.total_sub_issues_count && parentIssue.total_sub_issues_count > directTotal);
+  const hasNestedSubIssues = Boolean(
+    parentIssue?.total_sub_issues_count && parentIssue.total_sub_issues_count > directTotal
+  );
 
-  const totalCount = hasNestedSubIssues
-    ? (parentIssue?.total_sub_issues_count ?? directTotal)
-    : directTotal;
+  const totalCount = hasNestedSubIssues ? (parentIssue?.total_sub_issues_count ?? directTotal) : directTotal;
   const completedCount = hasNestedSubIssues
     ? (parentIssue?.completed_sub_issues_count ?? directCompleted)
     : directCompleted;

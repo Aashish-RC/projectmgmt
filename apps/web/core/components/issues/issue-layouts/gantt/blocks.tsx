@@ -70,11 +70,11 @@ export const IssueGanttBlock = observer(function IssueGanttBlock(props: Props) {
             onClick={handleIssuePeekOverview}
           >
             <div
-              className="sticky w-auto flex-1 truncate overflow-hidden px-2.5 py-1 text-13 text-primary flex items-center gap-1.5"
+              className="sticky flex w-auto flex-1 items-center gap-1.5 truncate overflow-hidden px-2.5 py-1 text-13 text-primary"
               style={{ left: `${SIDEBAR_WIDTH}px` }}
             >
               {issueDetails?.wbs_number && (
-                <span className="shrink-0 rounded bg-black/20 dark:bg-white/20 px-1 py-0.5 text-[10px] font-mono font-medium opacity-90">
+                <span className="font-mono shrink-0 rounded bg-black/20 px-1 py-0.5 text-[10px] font-medium opacity-90 dark:bg-white/20">
                   [{issueDetails.wbs_number}]
                 </span>
               )}

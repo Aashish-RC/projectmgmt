@@ -72,14 +72,26 @@ export const STANDARD_PERSONA: IPersonaManifest = {
 export const DEEP_PERSONA: IPersonaManifest = {
   tier: "deep",
   label: "Deep (Agile & Enterprise)",
-  description: "Enterprise project management with cascading Gantt schedules, WBS numbering, and strategic OKR rollups.",
+  description:
+    "Enterprise project management with cascading Gantt schedules, WBS numbering, and strategic OKR rollups.",
   targetAudience: "Program Managers, PMO leaders, Enterprise Architects, and multi-team programs.",
   navigation: {
     visibleItems: ["issues", "cycles", "modules", "views", "pages", "goals", "analytics"],
     defaultView: "timeline",
   },
   issueProperties: {
-    visibleFields: ["state", "priority", "assignees", "start_date", "due_date", "labels", "estimate", "module", "cycle", "wbs"],
+    visibleFields: [
+      "state",
+      "priority",
+      "assignees",
+      "start_date",
+      "due_date",
+      "labels",
+      "estimate",
+      "module",
+      "cycle",
+      "wbs",
+    ],
     cardDensity: "detailed_agile",
   },
   views: {

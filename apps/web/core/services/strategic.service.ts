@@ -18,19 +18,30 @@ export class StrategicService extends APIService {
   }
 
   async getObjective(workspaceSlug: string, projectId: string, objectiveId: string): Promise<TObjective> {
-    return this.get(`/workspaces/${workspaceSlug}/projects/${projectId}/objectives/${objectiveId}/`).then((res) => res?.data);
+    return this.get(`/workspaces/${workspaceSlug}/projects/${projectId}/objectives/${objectiveId}/`).then(
+      (res) => res?.data
+    );
   }
 
   async createObjective(workspaceSlug: string, projectId: string, data: Partial<TObjective>): Promise<TObjective> {
     return this.post(`/workspaces/${workspaceSlug}/projects/${projectId}/objectives/`, data).then((res) => res?.data);
   }
 
-  async updateObjective(workspaceSlug: string, projectId: string, objectiveId: string, data: Partial<TObjective>): Promise<TObjective> {
-    return this.patch(`/workspaces/${workspaceSlug}/projects/${projectId}/objectives/${objectiveId}/`, data).then((res) => res?.data);
+  async updateObjective(
+    workspaceSlug: string,
+    projectId: string,
+    objectiveId: string,
+    data: Partial<TObjective>
+  ): Promise<TObjective> {
+    return this.patch(`/workspaces/${workspaceSlug}/projects/${projectId}/objectives/${objectiveId}/`, data).then(
+      (res) => res?.data
+    );
   }
 
   async deleteObjective(workspaceSlug: string, projectId: string, objectiveId: string): Promise<any> {
-    return this.delete(`/workspaces/${workspaceSlug}/projects/${projectId}/objectives/${objectiveId}/`).then((res) => res?.data);
+    return this.delete(`/workspaces/${workspaceSlug}/projects/${projectId}/objectives/${objectiveId}/`).then(
+      (res) => res?.data
+    );
   }
 
   // Key Results
@@ -43,12 +54,21 @@ export class StrategicService extends APIService {
     return this.post(`/workspaces/${workspaceSlug}/projects/${projectId}/key-results/`, data).then((res) => res?.data);
   }
 
-  async updateKeyResult(workspaceSlug: string, projectId: string, keyResultId: string, data: Partial<TKeyResult>): Promise<TKeyResult> {
-    return this.patch(`/workspaces/${workspaceSlug}/projects/${projectId}/key-results/${keyResultId}/`, data).then((res) => res?.data);
+  async updateKeyResult(
+    workspaceSlug: string,
+    projectId: string,
+    keyResultId: string,
+    data: Partial<TKeyResult>
+  ): Promise<TKeyResult> {
+    return this.patch(`/workspaces/${workspaceSlug}/projects/${projectId}/key-results/${keyResultId}/`, data).then(
+      (res) => res?.data
+    );
   }
 
   async deleteKeyResult(workspaceSlug: string, projectId: string, keyResultId: string): Promise<any> {
-    return this.delete(`/workspaces/${workspaceSlug}/projects/${projectId}/key-results/${keyResultId}/`).then((res) => res?.data);
+    return this.delete(`/workspaces/${workspaceSlug}/projects/${projectId}/key-results/${keyResultId}/`).then(
+      (res) => res?.data
+    );
   }
 
   // Ideas
@@ -61,7 +81,9 @@ export class StrategicService extends APIService {
   }
 
   async updateIdea(workspaceSlug: string, projectId: string, ideaId: string, data: Partial<TIdea>): Promise<TIdea> {
-    return this.patch(`/workspaces/${workspaceSlug}/projects/${projectId}/ideas/${ideaId}/`, data).then((res) => res?.data);
+    return this.patch(`/workspaces/${workspaceSlug}/projects/${projectId}/ideas/${ideaId}/`, data).then(
+      (res) => res?.data
+    );
   }
 
   async deleteIdea(workspaceSlug: string, projectId: string, ideaId: string): Promise<any> {
@@ -69,15 +91,29 @@ export class StrategicService extends APIService {
   }
 
   async upvoteIdea(workspaceSlug: string, projectId: string, ideaId: string): Promise<TIdea> {
-    return this.post(`/workspaces/${workspaceSlug}/projects/${projectId}/ideas/${ideaId}/upvote/`).then((res) => res?.data);
+    return this.post(`/workspaces/${workspaceSlug}/projects/${projectId}/ideas/${ideaId}/upvote/`).then(
+      (res) => res?.data
+    );
   }
 
-  async convertIdeaToIssue(workspaceSlug: string, projectId: string, ideaId: string): Promise<{ idea: TIdea; issue_id: string }> {
-    return this.post(`/workspaces/${workspaceSlug}/projects/${projectId}/ideas/${ideaId}/convert-to-issue/`).then((res) => res?.data);
+  async convertIdeaToIssue(
+    workspaceSlug: string,
+    projectId: string,
+    ideaId: string
+  ): Promise<{ idea: TIdea; issue_id: string }> {
+    return this.post(`/workspaces/${workspaceSlug}/projects/${projectId}/ideas/${ideaId}/convert-to-issue/`).then(
+      (res) => res?.data
+    );
   }
 
-  async convertIdeaToModule(workspaceSlug: string, projectId: string, ideaId: string): Promise<{ idea: TIdea; module_id: string }> {
-    return this.post(`/workspaces/${workspaceSlug}/projects/${projectId}/ideas/${ideaId}/convert-to-module/`).then((res) => res?.data);
+  async convertIdeaToModule(
+    workspaceSlug: string,
+    projectId: string,
+    ideaId: string
+  ): Promise<{ idea: TIdea; module_id: string }> {
+    return this.post(`/workspaces/${workspaceSlug}/projects/${projectId}/ideas/${ideaId}/convert-to-module/`).then(
+      (res) => res?.data
+    );
   }
 }
 

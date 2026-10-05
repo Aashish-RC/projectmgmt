@@ -141,18 +141,19 @@ export class AdaptivePersonaStore implements IAdaptivePersonaStore {
     // Canonical alias mappings
     if (rawKey === "target_date" || rawKey === "due_date") candidateKeys.push("target_date", "due_date");
     if (rawKey === "cycle_id" || rawKey === "cycle") candidateKeys.push("cycle_id", "cycle");
-    if (rawKey === "module_ids" || rawKey === "module" || rawKey === "modules") candidateKeys.push("module_ids", "module", "modules");
+    if (rawKey === "module_ids" || rawKey === "module" || rawKey === "modules")
+      candidateKeys.push("module_ids", "module", "modules");
     if (rawKey === "estimate_point" || rawKey === "estimate") candidateKeys.push("estimate_point", "estimate");
-    if (rawKey === "label_ids" || rawKey === "labels" || rawKey === "label") candidateKeys.push("label_ids", "labels", "label");
-    if (rawKey === "assignee_ids" || rawKey === "assignees" || rawKey === "assignee") candidateKeys.push("assignee_ids", "assignees", "assignee");
+    if (rawKey === "label_ids" || rawKey === "labels" || rawKey === "label")
+      candidateKeys.push("label_ids", "labels", "label");
+    if (rawKey === "assignee_ids" || rawKey === "assignees" || rawKey === "assignee")
+      candidateKeys.push("assignee_ids", "assignees", "assignee");
     if (rawKey === "state_id" || rawKey === "state") candidateKeys.push("state_id", "state");
     if (rawKey === "parent_id" || rawKey === "parent") candidateKeys.push("parent_id", "parent");
 
     // 1. Mandatory organizational fields are ALWAYS visible
     if (project?.mandatory_fields && project.mandatory_fields.length > 0) {
-      const isMandatory = project.mandatory_fields.some((f) =>
-        candidateKeys.includes(f.toLowerCase().trim())
-      );
+      const isMandatory = project.mandatory_fields.some((f) => candidateKeys.includes(f.toLowerCase().trim()));
       if (isMandatory) return true;
     }
 
