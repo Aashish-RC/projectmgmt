@@ -198,9 +198,10 @@ SITE_ID = 1
 AUTH_USER_MODEL = "db.User"
 
 # Database
-if bool(os.environ.get("DATABASE_URL")):
-    # Parse database configuration from $DATABASE_URL
-    DATABASES = {"default": dj_database_url.config()}
+_db_url = os.environ.get("DATABASE_URL")
+if bool(_db_url):
+    # Parse database configuration from $DATABASE_URL (expanding any env vars like ${POSTGRES_HOST})
+    DATABASES = {"default": dj_database_url.parse(os.path.expandvars(_db_url))}
 else:
     DATABASES = {
         "default": {
@@ -215,9 +216,10 @@ else:
 
 
 if os.environ.get("ENABLE_READ_REPLICA", "0") == "1":
-    if bool(os.environ.get("DATABASE_READ_REPLICA_URL")):
+    _read_replica_url = os.environ.get("DATABASE_READ_REPLICA_URL")
+    if bool(_read_replica_url):
         # Parse database configuration from $DATABASE_URL
-        DATABASES["replica"] = dj_database_url.parse(os.environ.get("DATABASE_READ_REPLICA_URL"))
+        DATABASES["replica"] = dj_database_url.parse(os.path.expandvars(_read_replica_url))
     else:
         DATABASES["replica"] = {
             "ENGINE": "django.db.backends.postgresql",
@@ -235,7 +237,9 @@ if os.environ.get("ENABLE_READ_REPLICA", "0") == "1":
 
 
 # Redis Config
-REDIS_URL = os.environ.get("REDIS_URL")
+_redis_url = os.environ.get("REDIS_URL")
+_redis_host = os.environ.get("REDIS_HOST", "plane-redis")
+REDIS_URL = os.path.expandvars(_redis_url) if _redis_url else f"redis://{_redis_host}:6379/"
 REDIS_SSL = REDIS_URL and "rediss" in REDIS_URL
 
 if REDIS_SSL:
