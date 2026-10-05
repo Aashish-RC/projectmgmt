@@ -604,14 +604,13 @@ export class ProjectStore implements IProjectStore {
    * @param projectId
    * @returns Promise<void>
    */
-  archiveProject = async (workspaceSlug: string, projectId: string) => {
+  archiveProject = async (workspaceSlug: string, projectId: string): Promise<void> => {
     try {
       const response = await this.projectArchiveService.archiveProject(workspaceSlug, projectId);
       runInAction(() => {
         set(this.projectMap, [projectId, "archived_at"], response.archived_at);
         this.rootStore.favorite.removeFavoriteFromStore(projectId);
       });
-      return response;
     } catch (error) {
       console.log("Failed to archive project from project store");
       throw error;
@@ -624,13 +623,12 @@ export class ProjectStore implements IProjectStore {
    * @param projectId
    * @returns Promise<void>
    */
-  restoreProject = async (workspaceSlug: string, projectId: string) => {
+  restoreProject = async (workspaceSlug: string, projectId: string): Promise<void> => {
     try {
-      const response = await this.projectArchiveService.restoreProject(workspaceSlug, projectId);
+      await this.projectArchiveService.restoreProject(workspaceSlug, projectId);
       runInAction(() => {
         set(this.projectMap, [projectId, "archived_at"], null);
       });
-      return response;
     } catch (error) {
       console.log("Failed to restore project from project store");
       throw error;
