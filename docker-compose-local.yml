@@ -76,6 +76,8 @@ services:
     volumes:
       - ./apps/api:/code
     command: ./bin/docker-entrypoint-api-local.sh
+    environment:
+      DJANGO_SETTINGS_MODULE: plane.settings.local
     env_file:
       - ./apps/api/.env
     depends_on:
@@ -93,6 +95,8 @@ services:
     volumes:
       - ./apps/api:/code
     command: ./bin/docker-entrypoint-worker.sh
+    environment:
+      DJANGO_SETTINGS_MODULE: plane.settings.local
     env_file:
       - ./apps/api/.env
     depends_on:
@@ -108,6 +112,8 @@ services:
     volumes:
       - ./apps/api:/code
     command: ./bin/docker-entrypoint-beat.sh
+    environment:
+      DJANGO_SETTINGS_MODULE: plane.settings.local
     env_file:
       - ./apps/api/.env
     depends_on:
@@ -123,6 +129,8 @@ services:
     volumes:
       - ./apps/api:/code
     command: ./bin/docker-entrypoint-migrator.sh --settings=plane.settings.local
+    environment:
+      DJANGO_SETTINGS_MODULE: plane.settings.local
     env_file:
       - ./apps/api/.env
     depends_on:
