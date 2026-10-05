@@ -3,6 +3,7 @@
 # See the LICENSE file for details.
 
 from django.db import transaction
+from django.db.models import F
 from rest_framework import status
 from rest_framework.decorators import action
 from rest_framework.response import Response
@@ -130,21 +131,28 @@ class IdeaViewSet(BaseViewSet):
     @action(detail=True, methods=["post"], url_path="upvote")
     def upvote(self, request, slug, project_id, pk=None):
         idea = self.get_object()
-        idea.upvotes_count = (idea.upvotes_count or 0) + 1
+        idea.upvotes_count = F("upvotes_count") + 1
         idea.save(update_fields=["upvotes_count", "updated_at"])
+        idea.refresh_from_db(fields=["upvotes_count"])
         return Response(self.get_serializer(idea).data, status=status.HTTP_200_OK)
 
     @allow_permission([ROLE.ADMIN, ROLE.MEMBER])
     @action(detail=True, methods=["post"], url_path="convert-to-issue")
     def convert_to_issue(self, request, slug, project_id, pk=None):
         idea = self.get_object()
-        if idea.converted_issue:
-            return Response(
-                {"error": "Idea is already converted to an issue", "issue_id": str(idea.converted_issue_id)},
-                status=status.HTTP_400_BAD_REQUEST,
-            )
 
         with transaction.atomic():
+            idea = Idea.objects.select_for_update().get(
+                pk=idea.pk,
+                project_id=project_id,
+                workspace__slug=slug,
+            )
+            if idea.converted_issue_id or idea.converted_module_id:
+                return Response(
+                    {"error": "Idea is already converted"},
+                    status=status.HTTP_409_CONFLICT,
+                )
+
             # Get default project state
             default_state = (
                 State.objects.filter(project_id=project_id, default=True).first()
@@ -178,13 +186,19 @@ class IdeaViewSet(BaseViewSet):
     @action(detail=True, methods=["post"], url_path="convert-to-module")
     def convert_to_module(self, request, slug, project_id, pk=None):
         idea = self.get_object()
-        if idea.converted_module:
-            return Response(
-                {"error": "Idea is already converted to a module", "module_id": str(idea.converted_module_id)},
-                status=status.HTTP_400_BAD_REQUEST,
-            )
 
         with transaction.atomic():
+            idea = Idea.objects.select_for_update().get(
+                pk=idea.pk,
+                project_id=project_id,
+                workspace__slug=slug,
+            )
+            if idea.converted_issue_id or idea.converted_module_id:
+                return Response(
+                    {"error": "Idea is already converted"},
+                    status=status.HTTP_409_CONFLICT,
+                )
+
             module = Module.objects.create(
                 workspace_id=idea.workspace_id,
                 project_id=project_id,

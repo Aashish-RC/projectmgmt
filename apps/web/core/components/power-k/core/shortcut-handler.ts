@@ -108,9 +108,19 @@ export class ShortcutHandler {
       return;
     }
 
+    if (!this.isSpeedEngineEnabled() && (["c", "j", "k", "x"].includes(key) || key === " " || e.code === "Space")) {
+      return;
+    }
+
     // Handle single key shortcuts and sequences (c, p, gm, op, gb, gi, etc.)
     this.handleKeyOrSequence(e, key);
   };
+
+  private isSpeedEngineEnabled(): boolean {
+    const projectId = this.getContext().params.projectId?.toString();
+    const project = projectId ? rootStore.projectRoot?.project?.getProjectById(projectId) : undefined;
+    return project?.is_speed_engine_enabled !== false;
+  }
 
   /**
    * Handle Huly-speed single-key shortcuts:
@@ -120,6 +130,8 @@ export class ShortcutHandler {
    * - c: Quick issue creation modal
    */
   private handleSpeedEngineShortcuts(e: KeyboardEvent, key: string): boolean {
+    if (!this.isSpeedEngineEnabled()) return false;
+
     // If a multi-key sequence is active (e.g. user pressed 'g'), let sequence handler proceed
     if (this.sequence.length > 0 && ![" ", "space"].includes(key)) {
       return false;

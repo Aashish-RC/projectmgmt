@@ -3,6 +3,7 @@
 # See the LICENSE file for details.
 
 # Third party imports
+from django.conf import settings
 from rest_framework import serializers
 
 # Python imports
@@ -89,6 +90,11 @@ class ProjectSerializer(BaseSerializer):
 
     def create(self, validated_data):
         workspace_id = self.context["workspace_id"]
+        validated_data.setdefault("default_complexity", settings.DEFAULT_PROJECT_COMPLEXITY_PRESET)
+        validated_data.setdefault("complexity_policy", settings.DEFAULT_PROJECT_COMPLEXITY_POLICY)
+        validated_data.setdefault("mandatory_fields", settings.DEFAULT_PROJECT_MANDATORY_FIELDS)
+        for field, enabled in settings.DEFAULT_PROJECT_ENGINE_FLAGS.items():
+            validated_data.setdefault(field, enabled)
 
         project = Project.objects.create(**validated_data, workspace_id=workspace_id)
 

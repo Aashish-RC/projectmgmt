@@ -14,7 +14,7 @@ import { HabitDetectorStore, type IHabitDetectorStore } from "./habit-detector.s
 const STORAGE_KEY = "plane_user_adaptive_persona_tier";
 
 export interface IAdaptivePersonaStore {
-  currentTier: ComplexityTier;
+  currentTier: ComplexityTier | null;
   activeManifest: IPersonaManifest;
   habitDetector: IHabitDetectorStore;
   getEffectiveTier: (project?: IProject | IPartialProject | null) => ComplexityTier;
@@ -31,7 +31,7 @@ export interface IAdaptivePersonaStore {
 }
 
 export class AdaptivePersonaStore implements IAdaptivePersonaStore {
-  currentTier: ComplexityTier = "standard";
+  currentTier: ComplexityTier | null = null;
   habitDetector: IHabitDetectorStore;
   rootStore: CoreRootStore;
 
@@ -65,21 +65,21 @@ export class AdaptivePersonaStore implements IAdaptivePersonaStore {
    * 2. Otherwise: Member's personal preferred currentTier (or project default_complexity if unset).
    */
   getEffectiveTier = (project?: IProject | IPartialProject | null): ComplexityTier => {
-    if (!project) return this.currentTier;
+    if (!project) return this.currentTier ?? "standard";
 
     const policy = project.complexity_policy ?? "bounded";
     if (policy === "locked") {
       return (project.default_complexity as ComplexityTier) || "standard";
     }
 
-    return this.currentTier || (project.default_complexity as ComplexityTier) || "standard";
+    return this.currentTier ?? (project.default_complexity as ComplexityTier) ?? "standard";
   };
 
   /**
    * Computes the active manifest for the current general context.
    */
   get activeManifest(): IPersonaManifest {
-    return PERSONA_MANIFESTS[this.currentTier] || STANDARD_PERSONA;
+    return (this.currentTier && PERSONA_MANIFESTS[this.currentTier]) || STANDARD_PERSONA;
   }
 
   /**
@@ -115,14 +115,13 @@ export class AdaptivePersonaStore implements IAdaptivePersonaStore {
   };
 
   /**
-   * Resets the user's preferred tier back to the project default.
+   * Clears the user's preference so the current project's default applies.
    */
-  resetToDefault = (project?: IProject | IPartialProject | null): void => {
-    const defaultTier = (project?.default_complexity as ComplexityTier) || "standard";
-    this.currentTier = defaultTier;
+  resetToDefault = (_project?: IProject | IPartialProject | null): void => {
+    this.currentTier = null;
     if (typeof window !== "undefined") {
       try {
-        localStorage.setItem(STORAGE_KEY, defaultTier);
+        localStorage.removeItem(STORAGE_KEY);
       } catch (_e) {
         // Ignore
       }

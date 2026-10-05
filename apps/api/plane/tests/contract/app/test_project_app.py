@@ -5,6 +5,7 @@
 import pytest
 from rest_framework import status
 import uuid
+from django.conf import settings
 from django.utils import timezone
 
 from plane.db.models import (
@@ -79,6 +80,11 @@ class TestProjectAPIPost(TestProjectBase):
         assert Project.objects.count() == 1
         project = Project.objects.get(name=project_data["name"])
         assert project.workspace == workspace
+        assert project.default_complexity == settings.DEFAULT_PROJECT_COMPLEXITY_PRESET
+        assert project.complexity_policy == settings.DEFAULT_PROJECT_COMPLEXITY_POLICY
+        assert project.mandatory_fields == settings.DEFAULT_PROJECT_MANDATORY_FIELDS
+        for field, enabled in settings.DEFAULT_PROJECT_ENGINE_FLAGS.items():
+            assert getattr(project, field) is enabled
 
         # Check if the member is created with the correct role
         assert ProjectMember.objects.count() == 1

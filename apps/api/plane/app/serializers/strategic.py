@@ -25,6 +25,12 @@ class KeyResultSerializer(BaseSerializer):
         fields = "__all__"
         read_only_fields = ["workspace", "project", "created_by", "updated_by", "created_at", "updated_at"]
 
+    def validate_objective(self, objective):
+        project_id = self.context["view"].kwargs["project_id"]
+        if str(objective.project_id) != str(project_id):
+            raise serializers.ValidationError("Objective must belong to this project.")
+        return objective
+
 
 class ObjectiveSerializer(BaseSerializer):
     owner_details = UserLiteSerializer(source="owner", read_only=True)

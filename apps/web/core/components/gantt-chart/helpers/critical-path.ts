@@ -42,6 +42,7 @@ export const computeCriticalPath = (
 
   if (validBlocks.length === 0) return criticalIds;
 
+  const validNodeIds = new Set(validBlocks.map((block) => block.id));
   const nodes: Map<string, ICriticalPathNode> = new Map();
 
   for (const block of validBlocks) {
@@ -50,8 +51,8 @@ export const computeCriticalPath = (
     const durationDays = Math.max(1, Math.round(Math.abs(target - start) / (1000 * 60 * 60 * 24)) + 1);
 
     const deps = getDependencies(block.id);
-    const validPreds = deps.predecessors.filter((pId) => !!blocksMap[pId]);
-    const validSuccs = deps.successors.filter((sId) => !!blocksMap[sId]);
+    const validPreds = deps.predecessors.filter((pId) => validNodeIds.has(pId));
+    const validSuccs = deps.successors.filter((sId) => validNodeIds.has(sId));
 
     nodes.set(block.id, {
       id: block.id,
@@ -118,19 +119,15 @@ export const computeCriticalPath = (
 
         const newDeg = (inDegree.get(succId) || 1) - 1;
         inDegree.set(succId, newDeg);
-        if (newDeg <= 0) {
+        if (newDeg === 0) {
           queue.push(succId);
         }
       }
     }
   }
 
-  // Handle any nodes not picked up (e.g. isolated or cyclic)
-  for (const [id, node] of nodes.entries()) {
-    if (!topoOrder.includes(id)) {
-      topoOrder.push(id);
-      node.ef = node.es + node.duration;
-    }
+  if (topoOrder.length !== nodes.size) {
+    throw new Error("Cannot compute the critical path because task dependencies contain a cycle.");
   }
 
   // Project Finish Date (max of all EF)

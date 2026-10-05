@@ -15,6 +15,7 @@ from urllib.parse import urljoin
 import dj_database_url
 
 # Django imports
+from django.core.exceptions import ImproperlyConfigured
 from django.core.management.utils import get_random_secret_key
 from corsheaders.defaults import default_headers
 
@@ -26,6 +27,42 @@ from plane.utils.url import is_valid_url
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 _logger = logging.getLogger("plane")
+
+
+def _env_bool(key: str, default: bool) -> bool:
+    value = os.environ.get(key)
+    if value is None:
+        return default
+    normalized = value.strip().lower()
+    if normalized in {"1", "true", "yes", "on"}:
+        return True
+    if normalized in {"0", "false", "no", "off"}:
+        return False
+    raise ImproperlyConfigured(f"{key} must be set to a boolean value (1/0, true/false, yes/no, or on/off)")
+
+
+DEFAULT_PROJECT_COMPLEXITY_PRESET = os.environ.get("DEFAULT_COMPLEXITY_PRESET", "standard").strip().lower()
+if DEFAULT_PROJECT_COMPLEXITY_PRESET not in {"minimal", "standard", "deep"}:
+    raise ImproperlyConfigured("DEFAULT_COMPLEXITY_PRESET must be minimal, standard, or deep")
+
+DEFAULT_PROJECT_COMPLEXITY_POLICY = os.environ.get("DEFAULT_COMPLEXITY_POLICY", "bounded").strip().lower()
+if DEFAULT_PROJECT_COMPLEXITY_POLICY not in {"open", "bounded", "locked"}:
+    raise ImproperlyConfigured("DEFAULT_COMPLEXITY_POLICY must be open, bounded, or locked")
+
+DEFAULT_PROJECT_MANDATORY_FIELDS = [
+    field.strip()
+    for field in os.environ.get("DEFAULT_MANDATORY_FIELDS", "target_date,priority,assignees").split(",")
+    if field.strip()
+]
+DEFAULT_PROJECT_ENGINE_FLAGS = {
+    "is_speed_engine_enabled": _env_bool("ENABLE_HULY_SPEED_ENGINE", True),
+    "is_cascading_gantt_enabled": _env_bool("ENABLE_OPENPROJECT_GANTT_ENGINE", True),
+    "is_wbs_numbering_enabled": _env_bool("ENABLE_OPENPROJECT_GANTT_ENGINE", True),
+    "is_canonical_state_enabled": _env_bool("ENABLE_VIKUNJA_NORMALIZER_ENGINE", True),
+    "is_strategic_okr_enabled": _env_bool("ENABLE_LEANTIME_STRATEGIC_ENGINE", True),
+    "is_focus_timer_enabled": _env_bool("ENABLE_SUPER_PRODUCTIVITY_FOCUS_ENGINE", True),
+    "is_tactile_kanban_enabled": _env_bool("ENABLE_PLANKA_TACTILE_KANBAN_ENGINE", True),
+}
 
 # Secret Key — use `or` so an explicitly empty env var is treated the same as unset,
 # falling back to a random key rather than passing "" to Django (GHSA-cmwv-pjmw-8483).
