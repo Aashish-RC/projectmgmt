@@ -13,7 +13,10 @@ export interface IMandatoryFieldRule {
   checkMissing: (issue: Partial<TIssue>) => boolean;
 }
 
-export const MANDATORY_FIELD_CONFIG: Record<string, { label: string; checkMissing: (issue: Partial<TIssue>) => boolean }> = {
+export const MANDATORY_FIELD_CONFIG: Record<
+  string,
+  { label: string; checkMissing: (issue: Partial<TIssue>) => boolean }
+> = {
   target_date: {
     label: "Target Date",
     checkMissing: (issue) => !issue.target_date,
@@ -40,11 +43,15 @@ export const MANDATORY_FIELD_CONFIG: Record<string, { label: string; checkMissin
   },
   estimate_point: {
     label: "Estimate / Points",
-    checkMissing: (issue) => !issue.estimate_point && issue.point === undefined && issue.point === null,
+    checkMissing: (issue) =>
+      (issue.estimate_point === undefined || issue.estimate_point === null) &&
+      ((issue as Record<string, any>).point === undefined || (issue as Record<string, any>).point === null),
   },
   estimate: {
     label: "Estimate / Points",
-    checkMissing: (issue) => !issue.estimate_point && issue.point === undefined && issue.point === null,
+    checkMissing: (issue) =>
+      (issue.estimate_point === undefined || issue.estimate_point === null) &&
+      ((issue as Record<string, any>).point === undefined || (issue as Record<string, any>).point === null),
   },
   module: {
     label: "Module",
@@ -57,9 +64,7 @@ export const MANDATORY_FIELD_CONFIG: Record<string, { label: string; checkMissin
   description: {
     label: "Description",
     checkMissing: (issue) =>
-      !issue.description_html ||
-      issue.description_html.trim() === "" ||
-      issue.description_html.trim() === "<p></p>",
+      !issue.description_html || issue.description_html.trim() === "" || issue.description_html.trim() === "<p></p>",
   },
 };
 
@@ -83,8 +88,7 @@ export const checkMandatoryFieldsGuard = (
   const mandatoryFields = project.mandatory_fields;
   if (!mandatoryFields || mandatoryFields.length === 0) return true;
 
-  const isTerminal =
-    options?.targetStateGroup === "completed" || options?.targetStateGroup === "cancelled";
+  const isTerminal = options?.targetStateGroup === "completed" || options?.targetStateGroup === "cancelled";
 
   // Enforce on creation OR when transitioning to terminal state
   const shouldEnforce = Boolean(options?.isCreation || isTerminal);

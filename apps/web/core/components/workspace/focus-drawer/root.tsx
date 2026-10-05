@@ -7,19 +7,11 @@
 import React, { useState } from "react";
 import { observer } from "mobx-react";
 import { format } from "date-fns";
-import { 
-  Sun, 
-  X, 
-  Clock, 
-  Trash2, 
-  Plus, 
-  CheckCircle2, 
-  Sparkles 
-} from "lucide-react";
+import { Sun, X, Clock, Trash2, Plus, CheckCircle2, Sparkles } from "lucide-react";
 import { useFocus } from "@/hooks/store/use-focus";
 import { useIssues } from "@/hooks/store/use-issues";
 import { useProjectState } from "@/hooks/store/use-project-state";
-import { EIssuesStoreType } from "@plane/types";
+import type { TIssue } from "@plane/types";
 import { FocusTaskItem } from "./focus-task-item";
 
 export const FocusDrawer: React.FC = observer(() => {
@@ -35,9 +27,7 @@ export const FocusDrawer: React.FC = observer(() => {
     elapsedSeconds,
   } = useFocus();
 
-  const {
-    issues: { getIssueById, getProjectIssues },
-  } = useIssues(EIssuesStoreType.PROJECT);
+  const { issueMap } = useIssues();
   const { getStateById } = useProjectState();
 
   const [searchQuery, setSearchQuery] = useState("");
@@ -49,7 +39,7 @@ export const FocusDrawer: React.FC = observer(() => {
 
   // Determine completed issue IDs
   const completedIssueIds = todayIssueIds.filter((id) => {
-    const issue = getIssueById(id);
+    const issue = issueMap?.[id];
     if (!issue?.state_id) return false;
     const state = getStateById(issue.state_id);
     return state?.group === "completed" || state?.group === "cancelled";
@@ -63,22 +53,22 @@ export const FocusDrawer: React.FC = observer(() => {
       {/* Backdrop */}
       {/* oxlint-disable-next-line jsx_a11y/click-events-have-key-events oxlint-disable-next-line jsx_a11y/no-static-element-interactions */}
       <div
-        className="absolute inset-0 bg-black/50 backdrop-blur-xs transition-opacity animate-fade-in"
+        className="absolute inset-0 animate-fade-in bg-black/50 backdrop-blur-xs transition-opacity"
         onClick={() => toggleDrawer(false)}
       />
 
       {/* Drawer Panel */}
       <div className="fixed inset-y-0 right-0 flex max-w-full pl-10">
-        <div className="w-screen max-w-md border-l border-custom-border-200 bg-custom-background-100 shadow-2xl flex flex-col animate-slide-left">
+        <div className="border-custom-border-200 bg-custom-background-100 shadow-2xl animate-slide-left flex w-screen max-w-md flex-col border-l">
           {/* Drawer Header */}
-          <div className="p-5 border-b border-custom-border-100 bg-custom-background-90/80">
-            <div className="flex items-center justify-between mb-3">
+          <div className="border-custom-border-100 bg-custom-background-90/80 border-b p-5">
+            <div className="mb-3 flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <div className="p-2 rounded-xl bg-amber-500/10 text-amber-500">
+                <div className="bg-amber-500/10 text-amber-500 rounded-xl p-2">
                   <Sun size={20} />
                 </div>
                 <div>
-                  <h2 className="text-base font-bold text-custom-text-100">My Day / Focus</h2>
+                  <h2 className="text-base text-custom-text-100 font-bold">My Day / Focus</h2>
                   <p className="text-xs text-custom-text-300 font-medium">{todayDateFormatted}</p>
                 </div>
               </div>
@@ -86,21 +76,21 @@ export const FocusDrawer: React.FC = observer(() => {
               <button
                 type="button"
                 onClick={() => toggleDrawer(false)}
-                className="p-1.5 rounded-lg text-custom-text-400 hover:text-custom-text-100 hover:bg-custom-background-80 transition-colors cursor-pointer"
+                className="text-custom-text-400 hover:text-custom-text-100 hover:bg-custom-background-80 cursor-pointer rounded-lg p-1.5 transition-colors"
               >
                 <X size={18} />
               </button>
             </div>
 
             {/* Daily Stats & Mode Bar */}
-            <div className="flex items-center justify-between p-2.5 rounded-xl border border-custom-border-200 bg-custom-background-100 text-xs">
-              <div className="flex items-center gap-1.5 text-custom-text-200">
+            <div className="border-custom-border-200 bg-custom-background-100 text-xs flex items-center justify-between rounded-xl border p-2.5">
+              <div className="text-custom-text-200 flex items-center gap-1.5">
                 <Clock size={13} className="text-custom-primary-100" />
                 <span>Focus Time:</span>
                 <strong className="text-custom-text-100 font-mono">{totalFocusMinutes}m</strong>
               </div>
 
-              <div className="flex items-center gap-1.5 text-custom-text-200">
+              <div className="text-custom-text-200 flex items-center gap-1.5">
                 <CheckCircle2 size={13} className="text-emerald-500" />
                 <span>Completed:</span>
                 <strong className="text-custom-text-100">
@@ -111,7 +101,7 @@ export const FocusDrawer: React.FC = observer(() => {
           </div>
 
           {/* Quick Task Add Input */}
-          <div className="p-4 border-b border-custom-border-100 bg-custom-background-100">
+          <div className="border-custom-border-100 bg-custom-background-100 border-b p-4">
             <div className="relative">
               <input
                 type="text"
@@ -119,22 +109,22 @@ export const FocusDrawer: React.FC = observer(() => {
                 value={searchQuery}
                 onFocus={() => setIsSearching(true)}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-9 pr-4 py-2 rounded-xl border border-custom-border-200 bg-custom-background-90 text-xs text-custom-text-100 placeholder:text-custom-text-400 focus:outline-none focus:border-custom-primary-100 transition-colors"
+                className="border-custom-border-200 bg-custom-background-90 text-xs text-custom-text-100 placeholder:text-custom-text-400 focus:border-custom-primary-100 w-full rounded-xl border py-2 pr-4 pl-9 transition-colors focus:outline-none"
               />
-              <Plus size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-custom-text-400" />
+              <Plus size={14} className="text-custom-text-400 absolute top-1/2 left-3 -translate-y-1/2" />
             </div>
 
             {/* Quick Add Suggestions if searching */}
             {isSearching && searchQuery.trim().length > 0 && (
-              <div className="mt-2 p-2 rounded-xl border border-custom-border-200 bg-custom-background-90 space-y-1 max-h-40 overflow-y-auto">
-                {getProjectIssues()
+              <div className="border-custom-border-200 bg-custom-background-90 mt-2 max-h-40 space-y-1 overflow-y-auto rounded-xl border p-2">
+                {(Object.values(issueMap ?? {}) as TIssue[])
                   .filter(
-                    (issue) =>
-                      issue.name.toLowerCase().includes(searchQuery.toLowerCase()) &&
+                    (issue: TIssue) =>
+                      Boolean(issue.name?.toLowerCase().includes(searchQuery.toLowerCase())) &&
                       !todayIssueIds.includes(issue.id)
                   )
                   .slice(0, 5)
-                  .map((issue) => (
+                  .map((issue: TIssue) => (
                     <button
                       key={issue.id}
                       type="button"
@@ -143,12 +133,10 @@ export const FocusDrawer: React.FC = observer(() => {
                         setSearchQuery("");
                         setIsSearching(false);
                       }}
-                      className="w-full text-left p-2 rounded-lg hover:bg-custom-background-80 text-xs text-custom-text-100 truncate flex items-center justify-between gap-2 cursor-pointer"
+                      className="hover:bg-custom-background-80 text-xs text-custom-text-100 flex w-full cursor-pointer items-center justify-between gap-2 truncate rounded-lg p-2 text-left"
                     >
                       <span className="truncate">{issue.name}</span>
-                      <span className="text-[10px] text-custom-primary-100 font-semibold shrink-0">
-                        + Add & Focus
-                      </span>
+                      <span className="text-custom-primary-100 shrink-0 text-[10px] font-semibold">+ Add & Focus</span>
                     </button>
                   ))}
               </div>
@@ -156,19 +144,19 @@ export const FocusDrawer: React.FC = observer(() => {
           </div>
 
           {/* Task Queue List */}
-          <div className="flex-1 overflow-y-auto p-4 space-y-2.5">
+          <div className="flex-1 space-y-2.5 overflow-y-auto p-4">
             {todayIssueIds.length === 0 ? (
-              <div className="h-full flex flex-col items-center justify-center text-center p-8">
-                <div className="w-12 h-12 rounded-2xl bg-amber-500/10 text-amber-500 flex items-center justify-center mb-3">
+              <div className="flex h-full flex-col items-center justify-center p-8 text-center">
+                <div className="bg-amber-500/10 text-amber-500 mb-3 flex h-12 w-12 items-center justify-center rounded-2xl">
                   <Sparkles size={22} />
                 </div>
-                <h3 className="text-sm font-semibold text-custom-text-100">Ready for Focus</h3>
-                <p className="text-xs text-custom-text-300 max-w-xs mt-1 mb-4">
+                <h3 className="text-sm text-custom-text-100 font-semibold">Ready for Focus</h3>
+                <p className="text-xs text-custom-text-300 mt-1 mb-4 max-w-xs">
                   Add 3 to 5 critical tasks to today's queue to enter flow-state with live Pomodoro tracking.
                 </p>
-                <div className="text-[11px] text-custom-text-400 flex items-center gap-1">
+                <div className="text-custom-text-400 flex items-center gap-1 text-[11px]">
                   <span>Tip: Press</span>
-                  <kbd className="px-1.5 py-0.5 rounded border border-custom-border-200 bg-custom-background-90 font-semibold text-custom-text-200">
+                  <kbd className="border-custom-border-200 bg-custom-background-90 text-custom-text-200 rounded border px-1.5 py-0.5 font-semibold">
                     D
                   </kbd>
                   <span>anywhere to toggle this drawer</span>
@@ -191,7 +179,7 @@ export const FocusDrawer: React.FC = observer(() => {
 
           {/* Footer with Clear Completed */}
           {todayIssueIds.length > 0 && (
-            <div className="p-4 border-t border-custom-border-100 bg-custom-background-90 flex items-center justify-between text-xs">
+            <div className="border-custom-border-100 bg-custom-background-90 text-xs flex items-center justify-between border-t p-4">
               <span className="text-custom-text-400">
                 {todayIssueIds.length} {todayIssueIds.length === 1 ? "task" : "tasks"} in queue
               </span>
@@ -200,7 +188,7 @@ export const FocusDrawer: React.FC = observer(() => {
                 <button
                   type="button"
                   onClick={() => clearCompletedToday(completedIssueIds)}
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-rose-500 hover:bg-rose-500/10 transition-colors cursor-pointer"
+                  className="text-rose-500 hover:bg-rose-500/10 inline-flex cursor-pointer items-center gap-1.5 rounded-lg px-3 py-1.5 transition-colors"
                 >
                   <Trash2 size={13} />
                   <span>Clear Completed ({completedIssueIds.length})</span>

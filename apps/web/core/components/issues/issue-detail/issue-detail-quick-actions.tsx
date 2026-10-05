@@ -66,7 +66,7 @@ export const IssueDetailQuickActions = observer(function IssueDetailQuickActions
 
   const isTimingThisIssue = focusStore.activeIssueId === issueId;
   const isRunning = isTimingThisIssue && !focusStore.isPaused;
-  const isInMyDay = focusStore.isToday(issueId);
+  const isInMyDay = focusStore.isInToday(issueId);
 
   const projectIdentifier = getProjectIdentifierById(projectId);
 
@@ -207,7 +207,7 @@ export const IssueDetailQuickActions = observer(function IssueDetailQuickActions
                 type="button"
                 onClick={handleToggleTimer}
                 className={cn(
-                  "flex h-7 items-center gap-1.5 px-2 rounded border text-xs font-medium transition-colors",
+                  "text-xs flex h-7 items-center gap-1.5 rounded border px-2 font-medium transition-colors",
                   isTimingThisIssue
                     ? isRunning
                       ? "border-green-500/40 bg-green-500/10 text-green-500 hover:bg-green-500/20"
